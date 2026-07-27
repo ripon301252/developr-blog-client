@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+.google-btn {
+  @apply flex items-center justify-center gap-3 text-white px-5 py-2 rounded-lg w-full border font-semibold hover:bg-green-900 shadow-md bg-gradient-to-l from-[#062e17] to-[#021d10] border-[#062e17] cursor-pointer hover:scale-102 transition-transform;
+}
+
+/* .input-class{
+  @apply  w-full bg-white/10 font-semibold border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition;
+} */
+
+.input-class {
+  @apply w-full bg-gradient-to-l from-[#062e17] to-[#021d10] text-white font-semibold border border-[#021d10] rounded-lg
+  focus:outline-none focus:ring-2 focus:ring-green-400/50 transition;
+}
+
+/* .input-class {
+  @apply w-full bg-white border border-gray-300 rounded-lg px-4 py-2 
+  focus:outline-none focus:ring-2 focus:ring-green-400 transition text-gray-800;
+} */
+
+.file-choose {
+  @apply w-full border border-green-400/10 rounded-lg 
+         file:mr-4 file:py-2 file:px-4 
+         file:rounded file:border-0 
+         file:bg-green-500/10 file:text-white
+         /* hover:file:bg-green-600; */;
+}
+
+/* .leaflet-container .leaflet-control {
+  z-index: 0;
+} */
+
+.label-all{
+    @apply label text-white font-semibold mb-1
+}
+
+.btn{
+    @apply btn w-full text-white mt-2 rounded-lg border font-semibold hover:bg-green-900 shadow-md bg-gradient-to-r border-[#062e17] from-[#021d10] to-[#062e17] cursor-pointer hover:scale-102 transition-transform
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #021d10 inset !important;
+  box-shadow: 0 0 0px 1000px #021d10 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
