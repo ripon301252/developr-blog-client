@@ -53,7 +53,7 @@ const ForgotPassword = () => {
     <div className="min-h-screen">
       <title>Developer Blog - Reset Password</title>
 
-      <div className="lg:ml-10 mx-2 mt-3">
+      <div className="lg:ml-10 mx-2 pt-3">
         <Logo />
       </div>
 

@@ -135,12 +135,12 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <div className="lg:ml-10 mx-2 mt-3">
+    <div className="pb-10">
+      <div className="lg:ml-10 mx-2 pt-3">
         <Logo />
       </div>
       <div className="flex lg:flex-row flex-col-reverse mx-2 justify-between items-center gap-5 lg:gap-8 lg:max-w-[1060.9px] lg:mx-auto lg:my-10 my-5">
-        <div className="flex-1 bg-gradient-to-l from-[#021d10] to-[#062e17] lg:p-10 p-5 rounded-2xl shadow-xl ">
+        <div className="flex-1 bg-gradient-to-l from-[#021d10] to-[#062e17] lg:p-10 p-5 rounded-2xl shadow-xl border border-green-600/10">
           <h1 className="text-3xl font-bold text-center mb-3 text-white">
             Create Account
           </h1>

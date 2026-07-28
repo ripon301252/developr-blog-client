@@ -53,7 +53,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="lg:ml-10 mx-2 mt-3">
+      <div className="lg:ml-10 mx-2 pt-3">
         <Logo />
       </div>
       <div className="flex lg:flex-row flex-col mx-2 justify-between items-center lg:gap-8 lg:max-w-[919.9px] lg:mx-auto lg:my-10">

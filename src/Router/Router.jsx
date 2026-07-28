@@ -8,6 +8,7 @@ import ForgotPassword from "../Auth/ForgotPassword";
 import AddBlog from "../Pages/AddBlog";
 import Profile from "../Auth/Profile";
 import AllBlogs from "../Pages/Blogs/AllBlogs";
+import PrivateRoute from "./PrivateRoute";
 
 
 export const router = createBrowserRouter([
@@ -21,11 +22,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "/add-blog",
-        element: <AddBlog />,
+        element: <PrivateRoute>
+          <AddBlog />
+        </PrivateRoute>
       },
       {
         path: "/all-blogs",
-        element: <AllBlogs />,
+        element: <AllBlogs />
       },
     ],
   },

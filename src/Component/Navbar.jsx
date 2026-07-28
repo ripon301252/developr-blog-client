@@ -29,7 +29,7 @@ const Navbar = () => {
       : 
       []
     ),
-    { name: "Contact", path: "/contact" },
+    // { name: "Contact", path: "/contact" },
   ];
 
   return (
@@ -49,19 +49,12 @@ const Navbar = () => {
               className={({ isActive }) =>
                 `relative font-medium transition ${
                   isActive
-                    ? "text-green-500"
+                    ? "text-green-500 border-b-2"
                     : "text-white hover:text-green-500"
                 }`
               }
             >
               {link.name}
-
-              {/* underline animation */}
-              <span
-                className={`absolute left-0 -bottom-1 h-[2px] bg-green-500 transition-all duration-300 ${
-                  location.pathname === link.path ? "w-full" : "w-0"
-                }`}
-              ></span>
             </NavLink>
           ))}
         </div>
