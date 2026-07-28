@@ -22,17 +22,23 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
     { name: "Add Blog", path: "/add-blog" },
+    ...(user 
+      ? 
+      [{ name: "All Blogs", path: "/all-blogs" }] 
+      : 
+      []
+    ),
+    { name: "Contact", path: "/contact" },
   ];
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-
+    <nav className="bg-gradient-to-l from-[#021d10] via-[#094222] to-[#021d10] backdrop-blur-lg border-b border-green-500/20 shadow-lg sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
         {/* Logo */}
-        <Logo />
+        <div className="-ml-2">
+          <Logo />
+        </div>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
@@ -43,8 +49,8 @@ const Navbar = () => {
               className={({ isActive }) =>
                 `relative font-medium transition ${
                   isActive
-                    ? "text-sky-500"
-                    : "text-gray-700 hover:text-sky-500"
+                    ? "text-green-500"
+                    : "text-white hover:text-green-500"
                 }`
               }
             >
@@ -52,7 +58,7 @@ const Navbar = () => {
 
               {/* underline animation */}
               <span
-                className={`absolute left-0 -bottom-1 h-[2px] bg-sky-500 transition-all duration-300 ${
+                className={`absolute left-0 -bottom-1 h-[2px] bg-green-500 transition-all duration-300 ${
                   location.pathname === link.path ? "w-full" : "w-0"
                 }`}
               ></span>
@@ -62,37 +68,85 @@ const Navbar = () => {
 
         {/* Right */}
         <div className="flex items-center gap-3">
+          {/* Avatar / Login */}
+          <div className="hidden md:block">
+            {user ? (
+              <div className="relative inline-block group">
+                {/* Avatar */}
+                <img
+                  src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
+                  alt="avatar"
+                  className="w-10 h-10 rounded-full cursor-pointer 
+                    border-2 border-green-400/60 
+                    shadow-md shadow-green-300/30
+                    hover:scale-110 hover:shadow-green-400/40 
+                    transition duration-300"
+                />
 
-          {/* Avatar */}
-          {user ? (
-            <div className="relative group">
-              <img
-                src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
-                alt="avatar"
-                className="w-10 h-10 rounded-full cursor-pointer border-2 border-sky-400 hover:scale-105 transition"
-              />
-
-              {/* Dropdown */}
-              <div className="absolute right-0 mt-3 w-44 bg-white rounded-xl shadow-lg opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-200">
-                <p className="px-4 py-2 text-sm text-gray-700 border-b">
-                  {user.displayName || "User"}
-                </p>
-                <button
-                  onClick={handleSignOut}
-                  className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100 rounded-b-xl"
+                {/* Dropdown */}
+                <div
+                  className="
+                    absolute right-0 top-full w-56 pt-2 mt-[14.9px] bg-gradient-to-l from-[#021d10] via-[#094222] to-[#021d10] rounded-b-2xl
+                    opacity-0 scale-95 translate-y-2 invisible
+                    group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:visible
+                    transition-all duration-300
+                  "
                 >
-                  Logout
-                </button>
+                  {/* User Info */}
+                  <div className="px-4 py-3 border-b border-white/20">
+                    <p className="text-sm font-semibold text-white truncate">
+                      {user.displayName || "User"}
+                    </p>
+                    <p className="text-xs text-gray-200 truncate">
+                      {user.email}
+                    </p>
+                  </div>
+
+                  {/* Menu Items */}
+                  <div className="py-2">
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition"
+                    >
+                      👤 Profile
+                    </Link>
+
+                    <Link
+                      to="/dashboard"
+                      className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition"
+                    >
+                      📊 Dashboard
+                    </Link>
+
+                    <button
+                      onClick={handleSignOut}
+                      className="
+                          w-full text-left px-4 py-2 text-sm font-semibold
+                          text-red-400 hover:bg-red-500/20 cursor-pointer
+                          transition rounded-b-2xl
+                        "
+                    >
+                      🚪 Logout
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          ) : (
-            <Link
-              to="/login"
-              className="px-4 py-1.5 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition"
-            >
-              Login
-            </Link>
-          )}
+            ) : (
+              <Link
+                to="/login"
+                className="
+        px-4 py-1.5 
+        bg-gradient-to-r from-green-500/20 to-emerald-500/20
+        text-white rounded-lg 
+        shadow-md shadow-green-300/30
+        hover:scale-105 hover:shadow-green-400/40
+        transition duration-300
+      "
+              >
+                Login
+              </Link>
+            )}
+          </div>
 
           {/* Mobile Button */}
           <div className="md:hidden">
@@ -109,7 +163,7 @@ const Navbar = () => {
           menuOpen ? "max-h-96" : "max-h-0"
         }`}
       >
-        <div className="px-4 pb-4 space-y-3 bg-white shadow">
+        <div className="space-y-3 bg-green-400/20 shadow rounded-b-lg">
           {navLinks.map((link) => (
             <NavLink
               key={link.name}
@@ -118,8 +172,8 @@ const Navbar = () => {
               className={({ isActive }) =>
                 `block py-2 px-2 rounded ${
                   isActive
-                    ? "bg-sky-100 text-sky-500"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-green-100 text-green-500 font-semibold "
+                    : "text-white hover:bg-green-100"
                 }`
               }
             >
@@ -127,13 +181,20 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-          {!user && (
+          {!user ? (
             <Link
               to="/login"
-              className="block text-center bg-sky-500 text-white py-2 rounded-lg"
+              className=" block text-center bg-green-500/50 font-semibold text-white py-2 rounded-lg"
             >
               Login
             </Link>
+          ) : (
+            <button
+              onClick={handleSignOut}
+              className="w-full text-center px-2 py-2 font-semibold text-red-500 bg-red-100 rounded-lg"
+            >
+              Logout
+            </button>
           )}
         </div>
       </div>
