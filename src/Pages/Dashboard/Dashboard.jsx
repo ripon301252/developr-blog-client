@@ -1,110 +1,230 @@
-import React from "react";
-import { Link, Outlet } from "react-router";
+import React, { useRef, useState } from "react";
+import { Link, NavLink, Outlet } from "react-router";
+import {
+  AudioLines,
+  BadgeDollarSign,
+  ChartArea,
+  Cuboid,
+  HandHelping,
+  LogOut,
+  Motorbike,
+  User,
+  Users,
+  UserStar,
+} from "lucide-react";
+import useRole from "../../Hooks/useRole";
+import { useAuth } from "../../Hooks/useAuth";
+import Logo from "../../Component/Logo";
+import { MdOutlineHome } from "react-icons/md";
+import { HiOutlineCash } from "react-icons/hi";
 
-const Dashboard = () => {
+const DashboardLayout = () => {
+  const [avatarOpen, setAvatarOpen] = useState(false);
+  const avatarRef = useRef();
+
+  const { role } = useRole();
+  const { user, signOutUser } = useAuth();
+  // const location = useLocation();
+
+  const activeLinks = (isActive) =>
+    `px-3 py-2 text-sm font-medium flex items-center gap-1 transition-all duration-300 ${
+      isActive
+        ? "text-gray-800 text-xs rounded-lg text-green-500"
+        : "text-xs hover:text-green-500 rounded-lg"
+    }`;
+
+  const handleLogout = () => {
+    signOutUser()
+      .then(() => alert.success("Logout successful"))
+      .catch((err) => alert.error(err.message));
+  };
+
+  // 👉 sidebar auto close (mobile UX)
+  const closeDrawer = () => {
+    const drawer = document.getElementById("my-drawer-4");
+    if (drawer) drawer.checked = false;
+  };
+
   return (
-    <div className="drawer lg:drawer-open">
-      <input
-        id="my-drawer-4"
-        type="checkbox"
-        className="drawer-toggle inline"
-      />
-      <div className="drawer-content">
-        {/* Navbar */}
-        <nav className="navbar w-full bg-green-900/50">
-          <label
-            htmlFor="my-drawer-4"
-            aria-label="open sidebar"
-            className="btn btn-square btn-ghost drawer-button"
-          >
-            {/* Sidebar toggle icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2"
-              fill="none"
-              stroke="currentColor"
-              className="my-1.5 inline-block size-4"
+    <div className="min-h-screen">
+      <div className="drawer lg:drawer-open">
+        {/* TOGGLE CONTROL */}
+        <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+
+        {/* MAIN CONTENT */}
+        <div className="drawer-content">
+          {/* TOP NAVBAR */}
+          <nav className="navbar bg-green-950 border-b border-green-900 sticky top-0 z-10 ">
+            {/* MOBILE MENU BUTTON */}
+            <label
+              htmlFor="my-drawer-4"
+              className="btn btn-square btn-ghost lg:hidden"
             >
-              <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
-              <path d="M9 4v16"></path>
-              <path d="M14 10l2 2l-2 2"></path>
-            </svg>
-          </label>
-          <div className="px-4">Navbar Title</div>
-        </nav>
-        {/* Page content here */}
-        <div className="p-4">
-          <Outlet></Outlet>
+              ☰
+            </label>
+
+            <div className="ml-auto flex items-center gap-3 px-4">
+              {/* <span className="text-xs px-2 py-1 bg-green-100 text-green-600 rounded-full">
+                {role}
+              </span> */}
+
+              {/* Avatar */}
+              <div
+                className="relative lg:inline-flex"
+                ref={avatarRef}
+                onClick={() => setAvatarOpen(false)} // outside click = close
+              >
+                {user ? (
+                  <>
+                    <img
+                      onClick={(e) => {
+                        e.stopPropagation(); // prevent parent click
+                        setAvatarOpen(!avatarOpen);
+                      }}
+                      src={
+                        user?.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"
+                      }
+                      alt="avatar"
+                      className="w-10 h-10 rounded-full border-2 border-green-400 cursor-pointer object-cover"
+                    />
+
+                    {avatarOpen && (
+                      <div
+                        onClick={(e) => e.stopPropagation()} // inside click safe
+                        className="absolute lg:-right-2 -right-1 lg:mt-13 mt-3 w-52 bg-green-950 shadow-xl rounded-b-xl p-3 z-50"
+                      >
+                        <p className="font-semibold text-white ">
+                          {user?.displayName || "User"}
+                        </p>
+                        <p className="text-xs text-white break-all">
+                          {user?.email}
+                        </p>
+
+                        <span className="mt-2 text-xs bg-green-100 text-green-600 px-2 py-1 rounded">
+                          {role}
+                        </span>
+
+                        <hr className="my-2" />
+
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex gap-2 items-center text-left px-3 py-2 round hover:bg-white/10 rounded-lg hover:text-red-400 text-sm cursor-pointer"
+                        >
+                          <LogOut size={18} />
+                          Logout
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link to="/login" className="btn btn-sm rounded-full">
+                    Login
+                  </Link>
+                )}
+              </div>
+            </div>
+          </nav>
+
+          {/* HEADER CARD */}
+          <div className="lg:p-4 p-1">
+            <div className="bg-green-500/10 rounded-xl p-4 shadow flex justify-between items-center">
+              <div>
+                <p className="text-sm text-gray-500">
+                  Welcome back 👋 Manage everything from here
+                </p>
+              </div>
+
+              <div className="hidden md:block stats shadow">
+                <div className="stat">
+                  <div className="stat-title">Status</div>
+                  <div className="stat-value text-green-500 text-lg">
+                    Active
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* PAGE CONTENT */}
+          <div className="lg:p-4 p-1">
+            <Outlet />
+          </div>
         </div>
-      </div>
 
-      <div className="drawer-side is-drawer-close:overflow-visible">
-        <label
-          htmlFor="my-drawer-4"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <div className="flex min-h-full flex-col items-start bg-green-900/30 is-drawer-close:w-14 is-drawer-open:w-64">
-          {/* Sidebar content here */}
-          <ul className="menu w-full grow">
-            {/* List item */}
-            <li>
-              <Link
-                to="/"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Homepage"
-              >
-                {/* Home icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
+        {/* SIDEBAR */}
+        <div className="drawer-side">
+          {/* OVERLAY (click to close) */}
+          <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
+
+          <div className="min-h-full w-64 bg-green-950 p-3">
+            {/* LOGO */}
+            <div className=" mb-4 px-1">
+              {/* <img src={logoImg} className="w-8" />
+              <h2 className="font-bold text-lg">ParcelX</h2> */}
+              <Logo></Logo>
+            </div>
+
+            <ul className="menu gap-1">
+              {/* HOME */}
+              <li>
+                <NavLink
+                  to="/"
+                  onClick={closeDrawer}
+                  className={({ isActive }) => activeLinks(isActive)}
                 >
-                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                </svg>
-                <span className="is-drawer-close:hidden">Homepage</span>
-              </Link>
-            </li>
+                  <MdOutlineHome size={18} />
+                  Home
+                </NavLink>
+              </li>
 
-            {/* List item */}
-            <li>
+              {/* ADMIN MENU */}
+              {role === "admin" && (
+                <>
+                  <li className="menu-title">Admin Panel</li>
+
+                  <li>
+                    <NavLink
+                      to="/dashboard/profile"
+                      onClick={closeDrawer}
+                      className={({ isActive }) => activeLinks(isActive)}
+                    >
+                      <User size={18} />
+                      User Profile
+                    </NavLink>
+                  </li>
+
+                  <li>
+                    <NavLink
+                      to="/dashboard/user-management"
+                      onClick={closeDrawer}
+                      className={({ isActive }) => activeLinks(isActive)}
+                    >
+                      <Users size={18} />
+                      User Management
+                    </NavLink>
+                  </li>
+                </>
+              )}
               <button
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Settings"
+                onClick={handleLogout}
+                className="flex gap-2 items-center text-left px-3 py-2 round hover:bg-white/10 rounded-lg hover:text-red-400 text-sm cursor-pointer"
               >
-                {/* Settings icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
-                >
-                  <path d="M20 7h-9"></path>
-                  <path d="M14 17H5"></path>
-                  <circle cx="17" cy="17" r="3"></circle>
-                  <circle cx="7" cy="7" r="3"></circle>
-                </svg>
-                <span className="is-drawer-close:hidden">Settings</span>
+                <LogOut size={18} />
+                Logout
               </button>
-            </li>
-          </ul>
+
+              {/* SETTINGS */}
+              <li className="mt-6">
+                <button className="flex gap-2 items-center hover:text-green-300">
+                  ⚙️ Settings
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default DashboardLayout;

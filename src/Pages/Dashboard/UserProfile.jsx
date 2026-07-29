@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../Hooks/useAuth";
+import { useAuth } from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
-import Logo from "../Component/Logo";
+
 import { Link, useNavigate } from "react-router";
 
-const Profile = () => {
+const UserProfile = () => {
   const { user, setUser, updateUserProfile } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -73,12 +73,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen  text-white">
-      {/* Logo */}
-      <div className="p-4 ">
-        <Logo />
-      </div>
-
+    <div className="min-h-screen text-white">
       <div className="flex justify-center items-center px-4 mt-10">
         <div className="w-full max-w-4xl bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden">
           {/* Cover */}
@@ -140,4 +135,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UserProfile;

@@ -11,6 +11,8 @@ import AllBlogs from "../Pages/Blogs/AllBlogs";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Pages/Dashboard/dashboard";
 import AdminRoute from "./AdminRoute";
+import UserProfile from "../Pages/Dashboard/UserProfile";
+import UserManagement from "../Pages/Dashboard/UserManagement";
 
 export const router = createBrowserRouter([
   {
@@ -55,16 +57,27 @@ export const router = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
-      {
-        path: "/dashboard",
-        element: (
-          <PrivateRoute>
-            <AdminRoute>
-              <Dashboard />
-            </AdminRoute>
-          </PrivateRoute>
-        ),
-      },
     ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <AdminRoute>
+          <Dashboard />
+        </AdminRoute>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "profile",
+        element: <UserProfile />
+      },
+      {
+        path: "user-management",
+        element: <UserManagement />
+      },
+
+    ]
   },
 ]);

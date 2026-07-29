@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../Hooks/useAuth";
-import { NavLink, Link } from "react-router";
+import { NavLink, Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import Logo from "./Logo";
 import { HiMenu, HiX } from "react-icons/hi";
@@ -10,6 +10,25 @@ const Navbar = () => {
   const { user, signOutUser } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const { role, roleLoading } = useRole();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await signOutUser();
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Logged out successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      navigate("/login");
+    } catch (error) {
+      Swal.fire("Error", error.message, "error");
+    }
+  };
 
   // const handleSignOut = () => {
   //   signOutUser();
@@ -21,21 +40,6 @@ const Navbar = () => {
   //     timer: 1500,
   //   });
   // };
-
-  const handleSignOut = async () => {
-    try {
-      await signOutUser();
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Logged out successfully",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      Swal.fire("Error", error.message, "error");
-    }
-  };
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -187,6 +191,15 @@ const Navbar = () => {
               {link.name}
             </NavLink>
           ))}
+
+          {role === "admin" && !roleLoading && (
+            <Link
+              to="/dashboard"
+              className="block px-2 py-2 text-sm text-white hover:bg-white/10 transition"
+            >
+            Dashboard
+            </Link>
+          )}
 
           {!user ? (
             <Link
