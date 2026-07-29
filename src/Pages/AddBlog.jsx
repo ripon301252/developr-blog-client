@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useAuth } from "../Hooks/useAuth";
-import useAxiosNormal from "../Hooks/useAxiosNormal";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 import logoImg from "../assets/logo.png";
 
 const AddBlog = () => {
   const { user, loading, setLoading } = useAuth();
-  const axiosAddBlog = useAxiosNormal();
+  const axiosAddBlog = useAxiosSecure();
 
   const [formData, setFormData] = useState({
     title: "",

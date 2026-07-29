@@ -4,31 +4,43 @@ import { NavLink, Link } from "react-router";
 import Swal from "sweetalert2";
 import Logo from "./Logo";
 import { HiMenu, HiX } from "react-icons/hi";
+import useRole from "../Hooks/useRole";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { role, roleLoading } = useRole();
 
-  const handleSignOut = () => {
-    signOutUser();
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Logged out successfully",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+  // const handleSignOut = () => {
+  //   signOutUser();
+  //   Swal.fire({
+  //     position: "center",
+  //     icon: "success",
+  //     title: "Logged out successfully",
+  //     showConfirmButton: false,
+  //     timer: 1500,
+  //   });
+  // };
+
+  const handleSignOut = async () => {
+    try {
+      await signOutUser();
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Logged out successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      Swal.fire("Error", error.message, "error");
+    }
   };
 
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Add Blog", path: "/add-blog" },
-    ...(user 
-      ? 
-      [{ name: "All Blogs", path: "/all-blogs" }] 
-      : 
-      []
-    ),
+    ...(user ? [{ name: "All Blogs", path: "/all-blogs" }] : []),
     // { name: "Contact", path: "/contact" },
   ];
 
@@ -79,7 +91,7 @@ const Navbar = () => {
                 {/* Dropdown */}
                 <div
                   className="
-                    absolute right-0 top-full w-56 pt-2 mt-[14.9px] bg-gradient-to-l from-[#021d10] via-[#094222] to-[#021d10] rounded-b-2xl
+                    absolute right-0 top-full w-56 pt-4 mt-[14.9px] bg-gradient-to-l from-[#021d10] via-[#094222] to-[#021d10] rounded-b-2xl
                     opacity-0 scale-95 translate-y-2 invisible
                     group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:visible
                     transition-all duration-300
@@ -104,12 +116,14 @@ const Navbar = () => {
                       👤 Profile
                     </Link>
 
-                    <Link
-                      to="/dashboard"
-                      className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition"
-                    >
-                      📊 Dashboard
-                    </Link>
+                    {role === "admin" && !roleLoading && (
+                      <Link
+                        to="/dashboard"
+                        className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition"
+                      >
+                        📊 Dashboard
+                      </Link>
+                    )}
 
                     <button
                       onClick={handleSignOut}

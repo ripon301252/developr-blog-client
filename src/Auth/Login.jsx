@@ -112,7 +112,7 @@ const Login = () => {
             </div>
 
             {/* Login Button */}
-            <button type="submit" className="btn">
+            <button type="submit" className="btn-custom">
               Login
             </button>
             {/* Divider */}

@@ -35,8 +35,8 @@
     @apply label text-white font-semibold mb-1
 }
 
-.btn{
-    @apply btn w-full text-white mt-2 rounded-lg border font-semibold hover:bg-green-900 shadow-md bg-gradient-to-r border-[#062e17] from-[#021d10] to-[#062e17] cursor-pointer hover:scale-102 transition-transform
+.btn-custom{
+    @apply btn w-full text-white  mt-2 rounded-lg border font-semibold hover:bg-green-900 shadow-md bg-gradient-to-r border-[#062e17] from-[#021d10] to-[#062e17] cursor-pointer hover:scale-102 transition-transform
 }
 
 .left-scroll {

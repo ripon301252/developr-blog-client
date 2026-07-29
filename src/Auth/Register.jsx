@@ -202,7 +202,7 @@ const Register = () => {
               </div>
             </div>
             {/* Register Button */}
-            <button type="submit" className="btn">
+            <button type="submit" className="btn-custom">
               Register
             </button>
             {/* Divider */}

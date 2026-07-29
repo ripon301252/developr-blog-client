@@ -169,7 +169,7 @@ const Comments = ({
                         ${
                           owner
                             ? "bg-red-500/30 hover:bg-red-500/50 text-white cursor-pointer"
-                            : "bg-gray-900 text-gray-400 cursor-not-allowed"
+                            : "bg-gray-500/80 text-white cursor-not-allowed"
                         }`}
                     >
                       Delete
@@ -182,7 +182,7 @@ const Comments = ({
                         ${
                           owner
                             ? "bg-green-500/30 hover:bg-green-500/50 text-white cursor-pointer"
-                            : "bg-gray-900 text-gray-400 cursor-not-allowed"
+                            : "bg-gray-500/80 text-white cursor-not-allowed"
                         }`}
                     >
                       Edit

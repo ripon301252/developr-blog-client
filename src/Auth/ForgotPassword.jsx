@@ -89,7 +89,7 @@ const ForgotPassword = () => {
             </div>
 
             {/* Button */}
-            <button onClick={handleReset} className="btn ">
+            <button onClick={handleReset} className="btn-custom">
               Send Reset Link
             </button>
           </div>

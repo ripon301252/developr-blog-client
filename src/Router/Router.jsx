@@ -9,7 +9,8 @@ import AddBlog from "../Pages/AddBlog";
 import Profile from "../Auth/Profile";
 import AllBlogs from "../Pages/Blogs/AllBlogs";
 import PrivateRoute from "./PrivateRoute";
-
+import Dashboard from "../Pages/Dashboard/dashboard";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -22,13 +23,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/add-blog",
-        element: <PrivateRoute>
-          <AddBlog />
-        </PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <AddBlog />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/all-blogs",
-        element: <AllBlogs />
+        element: <AllBlogs />,
       },
     ],
   },
@@ -38,7 +41,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/login",
-        element: <Login />
+        element: <Login />,
       },
       {
         path: "/register",
@@ -52,7 +55,16 @@ export const router = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
-      
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <Dashboard />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);

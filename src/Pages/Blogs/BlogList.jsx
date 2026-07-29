@@ -1,25 +1,34 @@
 import React from "react";
 
-const BlogList = ({ blogs, setSelectedBlog, handleLike, selectedBlog }) => {
+const BlogList = ({
+  blogs,
+  handleLike,
+  selectedBlog,
+  viewedBlogs,
+  handleMarkedBlog,
+}) => {
   return (
-    <div className="space-y-4 col-span-1 md:max-h-[572.9px] max-h-[320px] overflow-y-auto left-scroll">
-      <h2 className="text-2xl font-bold text-center sticky top-0  py-2 z-10">
+    <div className="space-y-4 col-span-1 md:max-h-[572.9px] max-h-[319.9px] overflow-y-auto left-scroll">
+      <h2 className="text-2xl font-bold bg-green-950 rounded-b-sm text-center sticky top-0  py-2 z-10">
         Blog List
         {/* <div className="border-b-2 mt-2 mx-12"></div> */}
       </h2>
-      
+
       {blogs.map((blog) => {
         const isActive = String(blog._id) === String(selectedBlog?._id);
+        const isViewed = viewedBlogs.includes(blog._id);
 
         return (
           <div
             key={blog._id}
-            onClick={() => setSelectedBlog(blog)}
+            onClick={() => handleMarkedBlog(blog)}
             className={`p-3 rounded-xl cursor-pointer transition-all duration-200 border
               ${
                 isActive
                   ? "bg-green-500/20 border-green-400 shadow-sm"
-                  : "bg-white/10 border-transparent hover:bg-white/20"
+                  : isViewed
+                    ? "bg-blue-500/10 border-blue-300"
+                    : "bg-white/10 border-transparent hover:bg-white/20"
               }
               `}
           >
@@ -29,15 +38,24 @@ const BlogList = ({ blogs, setSelectedBlog, handleLike, selectedBlog }) => {
               {blog.content.slice(0, 20)}...
             </p>
 
-            <span
-              onClick={(e) => {
-                e.stopPropagation();
-                handleLike(blog._id);
-              }}
-              className="cursor-pointer text-sm text-gray-300 hover:text-red-400"
-            >
-              ❤️ {blog.likes?.length || 0}
-            </span>
+            <div className="flex justify-between items-center">
+              <span
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleLike(blog._id);
+                }}
+                className="cursor-pointer text-sm text-gray-300 hover:text-red-400"
+              >
+                ❤️ {blog.likes?.length || 0}
+              </span>
+              <span>
+                {isViewed ? (
+                  <span className="text-sm text-green-400/80 font-semibold">✔ Read</span>
+                ) : (
+                  <span className="text-sm text-red-400/80 font-semibold">○ Unread</span>
+                )}
+              </span>
+            </div>
           </div>
         );
       })}

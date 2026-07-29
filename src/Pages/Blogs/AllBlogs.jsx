@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useAxiosNormal from "../../Hooks/useAxiosNormal";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useAuth } from "../../Hooks/useAuth";
 import BlogList from "./BlogList";
 import BlogDetails from "./BlogDetails";
@@ -7,18 +7,30 @@ import Comments from "./Comments";
 import Swal from "sweetalert2";
 
 const AllBlogs = () => {
-  const { user } = useAuth();
-  const axiosAllBlogs = useAxiosNormal();
+  const { user, loading } = useAuth();
+  const axiosAllBlogs = useAxiosSecure();
 
   const [blogs, setBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
 
+  const [viewedBlogs, setViewedBlogs] = useState(() => {
+    const saved = localStorage.getItem("viewedBlogs");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   // ✅ LOAD BLOGS
-  useEffect(() => {
-    axiosAllBlogs.get("/blogs").then((res) => setBlogs(res.data));
-  }, [axiosAllBlogs]);
+useEffect(() => {
+  const fetchData = async () => {
+    if (loading || !user) return;
+    axiosAllBlogs.get("/blogs")
+    .then(res => setBlogs(res.data))
+    .catch(err => console.log(err));
+  };
+
+  fetchData();
+}, [user, loading, axiosAllBlogs]);
 
   // ✅ LOAD COMMENTS
   useEffect(() => {
@@ -28,6 +40,18 @@ const AllBlogs = () => {
         .then((res) => setComments(res.data));
     }
   }, [selectedBlog, axiosAllBlogs]);
+
+  useEffect(() => {
+    const savedId = localStorage.getItem("selectedBlogId");
+
+    if (savedId && blogs.length > 0) {
+      const found = blogs.find((b) => String(b._id) === String(savedId));
+
+      if (found) {
+        setSelectedBlog(found);
+      }
+    }
+  }, [blogs]);
 
   // ✅ LIKE
   const handleLike = async (id) => {
@@ -98,17 +122,34 @@ const AllBlogs = () => {
     }
   };
 
+  // handle mark blog
+  const handleMarkedBlog = (blog) => {
+    setSelectedBlog(blog);
+
+    localStorage.setItem("selectedBlogId", blog._id); // ✅ ADD THIS
+
+    let updated;
+
+    if (viewedBlogs.includes(blog._id)) {
+      updated = viewedBlogs.filter((id) => id !== blog._id);
+    } else {
+      updated = [...viewedBlogs, blog._id];
+    }
+    setViewedBlogs(updated);
+    localStorage.setItem("viewedBlogs", JSON.stringify(updated));
+  };
+
   return (
-    <div className="min-h-screen max-w-7xl mx-auto  p-6 text-white">
+    <div className="min-h-screen max-w-7xl mx-auto py-10 text-white">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* 🔹 LEFT: BLOG LIST */}
         <div className="space-y-4 col-span-1 bg-white/10 p-5 rounded-xl">
           <BlogList
             blogs={blogs}
-            setSelectedBlog={setSelectedBlog}
             handleLike={handleLike}
-            user={user}
             selectedBlog={selectedBlog}
+            viewedBlogs={viewedBlogs}
+            handleMarkedBlog={handleMarkedBlog}
           />
         </div>
 
@@ -126,7 +167,7 @@ const AllBlogs = () => {
         </div>
 
         {/* 🔹 RIGHT: COMMENTS */}
-        <div className="bg-white/10 p-4 rounded-xl col-span-1">
+        <div className="bg-white/10 p-4 rounded-xl col-span-1 md:max-h-[799.9px] max-h-[319.9px] overflow-y-auto">
           <Comments
             selectedBlog={selectedBlog}
             comments={comments}
