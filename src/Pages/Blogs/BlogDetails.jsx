@@ -142,7 +142,7 @@ const BlogDetails = ({
       </div>
 
       {/* CONTENT */}
-      <div className="mt-4 max-h-[400.9px] overflow-y-auto pr-2">
+      <div className="mt-4 max-h-[400.9px] overflow-y-auto pr-2 hide-scrollbar">
         <p className="text-gray-200 leading-7 text-sm md:text-base whitespace-pre-wrap break-words text-justify">
           {selectedBlog.content}
         </p>

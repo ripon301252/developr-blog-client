@@ -10,7 +10,6 @@ import Profile from "../Auth/Profile";
 import AllBlogs from "../Pages/Blogs/AllBlogs";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Pages/Dashboard/dashboard";
-import AdminRoute from "./AdminRoute";
 import UserProfile from "../Pages/Dashboard/UserProfile";
 import UserManagement from "../Pages/Dashboard/UserManagement";
 
@@ -62,22 +61,19 @@ export const router = createBrowserRouter([
   {
     path: "dashboard",
     element: (
-      <PrivateRoute>
-        <AdminRoute>
-          <Dashboard />
-        </AdminRoute>
-      </PrivateRoute>
+      
+        <Dashboard />
+      
     ),
     children: [
       {
         path: "profile",
-        element: <UserProfile />
+        element: <UserProfile />,
       },
       {
         path: "user-management",
-        element: <UserManagement />
+        element: <UserManagement />,
       },
-
-    ]
+    ],
   },
 ]);

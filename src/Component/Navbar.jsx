@@ -4,12 +4,12 @@ import { NavLink, Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import Logo from "./Logo";
 import { HiMenu, HiX } from "react-icons/hi";
-import useRole from "../Hooks/useRole";
+// import useRole from "../Hooks/useRole";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const { role, roleLoading } = useRole();
+  // const { role, roleLoading } = useRole();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -50,7 +50,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gradient-to-l from-[#021d10] via-[#094222] to-[#021d10] backdrop-blur-lg border-b border-green-500/20 shadow-lg sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <div className="-ml-2">
           <Logo />
@@ -120,14 +120,14 @@ const Navbar = () => {
                       👤 Profile
                     </Link>
 
-                    {role === "admin" && !roleLoading && (
+                
                       <Link
                         to="/dashboard"
                         className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition"
                       >
                         📊 Dashboard
                       </Link>
-                    )}
+                    
 
                     <button
                       onClick={handleSignOut}
@@ -192,14 +192,14 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-          {role === "admin" && !roleLoading && (
+          
             <Link
               to="/dashboard"
               className="block px-2 py-2 text-sm text-white hover:bg-white/10 transition"
             >
             Dashboard
             </Link>
-          )}
+          
 
           {!user ? (
             <Link

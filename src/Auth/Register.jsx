@@ -89,7 +89,7 @@ const Register = () => {
         photoURL,
       };
 
-      const dbRes = await axiosRegister.post("/users", userInfo);
+      const dbRes = await axiosRegister.post("/users/register", userInfo);
 
       if (!dbRes.data.success) {
         return Swal.fire({

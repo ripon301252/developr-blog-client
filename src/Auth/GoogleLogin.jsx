@@ -22,7 +22,7 @@ const GoogleLogin = () => {
     };
 
     // 🔥 same API
-    await axiosGoogleLogin.post("/users", userInfo);
+    await axiosGoogleLogin.post("/users/register", userInfo);
 
     Swal.fire({
       icon: "success",

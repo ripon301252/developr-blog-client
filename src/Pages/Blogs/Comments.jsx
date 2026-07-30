@@ -121,7 +121,7 @@ const Comments = ({
       )}
 
       {/* 📜 COMMENT LIST */}
-      <div className="mt-4 space-y-3 max-h-[400px] overflow-y-auto pr-1">
+      <div className="mt-4 space-y-3 max-h-[400px] overflow-y-auto pr-1 hide-scrollbar">
         {comments.map((c) => {
           const owner = isOwner(c.userEmail);
 

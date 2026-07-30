@@ -8,7 +8,7 @@ const BlogList = ({
   handleMarkedBlog,
 }) => {
   return (
-    <div className="space-y-4 col-span-1 md:max-h-[572.9px] max-h-[319.9px] overflow-y-auto left-scroll">
+    <div className="space-y-4 col-span-1 md:max-h-[572.9px] max-h-[319.9px] overflow-y-auto hide-scrollbar">
       <h2 className="text-2xl font-bold bg-green-950 rounded-b-sm text-center sticky top-0  py-2 z-10">
         Blog List
         {/* <div className="border-b-2 mt-2 mx-12"></div> */}
@@ -35,7 +35,7 @@ const BlogList = ({
             <h3 className="font-semibold text-gray-200">{blog.title}</h3>
 
             <p className="text-sm text-gray-400 line-clamp-2">
-              {blog.content.slice(0, 20)}...
+              {blog.content.slice(0, 30)}...
             </p>
 
             <div className="flex justify-between items-center">

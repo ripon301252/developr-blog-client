@@ -39,13 +39,13 @@
     @apply btn w-full text-white  mt-2 rounded-lg border font-semibold hover:bg-green-900 shadow-md bg-gradient-to-r border-[#062e17] from-[#021d10] to-[#062e17] cursor-pointer hover:scale-102 transition-transform
 }
 
-.left-scroll {
+/* .left-scroll {
   direction: rtl;
 }
 
 .left-scroll > * {
   direction: ltr;
-}
+} */
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -58,3 +58,12 @@ select:-webkit-autofill {
   transition: background-color 5000s ease-in-out 0s;
 }
 
+.hide-scrollbar {
+  overflow: auto;              /* scroll enable */
+  -ms-overflow-style: none;    /* IE & Edge */
+  scrollbar-width: none;       /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;               /* Chrome, Safari */
+}

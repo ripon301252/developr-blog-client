@@ -16,7 +16,7 @@ const useRole = () => {
         const fetchRole = async () => {
             setRoleLoading(true)
             try{
-                const res = await axiosUseRole.get(`/users/${user.email}`)
+                const res = await axiosUseRole.get(`/users/${user.email}/role`)
                 const roleData = res.data;
                 setRole(roleData?.role || "user")
                 console.log("Fetched role:", roleData?.role || "user");
