@@ -5,6 +5,9 @@ import Swal from "sweetalert2";
 import Logo from "./Logo";
 import { HiMenu, HiX } from "react-icons/hi";
 // import useRole from "../Hooks/useRole";
+import { MdOutlineHome } from "react-icons/md";
+import { TbBrandBlogger } from "react-icons/tb";
+import { LogIn, LogOut, LayoutDashboard, User } from "lucide-react";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
@@ -42,9 +45,11 @@ const Navbar = () => {
   // };
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Add Blog", path: "/add-blog" },
-    ...(user ? [{ name: "All Blogs", path: "/all-blogs" }] : []),
+    { name: "Home", icon: MdOutlineHome, path: "/" },
+    { name: "Add Blog", icon: TbBrandBlogger, path: "/add-blog" },
+    ...(user
+      ? [{ name: "All Blogs", icon: TbBrandBlogger, path: "/all-blogs" }]
+      : []),
     // { name: "Contact", path: "/contact" },
   ];
 
@@ -58,21 +63,26 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.name}
-              to={link.path}
-              className={({ isActive }) =>
-                `relative font-medium transition ${
-                  isActive
-                    ? "text-green-500 border-b-2"
-                    : "text-white hover:text-green-500"
-                }`
-              }
-            >
-              {link.name}
-            </NavLink>
-          ))}
+          {navLinks.map((link) => {
+            const Icon = link.icon; // 🔥 important
+
+            return (
+              <NavLink
+                key={link.name}
+                to={link.path}
+                className={({ isActive }) =>
+                  `flex items-center gap-1 relative font-medium transition ${
+                    isActive
+                      ? "text-green-500 border-b-2"
+                      : "text-white hover:text-green-500"
+                  }`
+                }
+              >
+                {Icon && <Icon size={18} />} {/* 🔥 icon show */}
+                {link.name}
+              </NavLink>
+            );
+          })}
         </div>
 
         {/* Right */}
@@ -115,29 +125,30 @@ const Navbar = () => {
                   <div className="py-2">
                     <Link
                       to="/profile"
-                      className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition"
+                      className="flex items-center gap-1 px-4 py-2 text-sm text-white hover:bg-white/10 transition"
                     >
-                      👤 Profile
+                      <User size={18} />
+                      Profile
                     </Link>
 
-                
-                      <Link
-                        to="/dashboard"
-                        className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition"
-                      >
-                        📊 Dashboard
-                      </Link>
-                    
+                    <Link
+                      to="/dashboard"
+                      className="flex items-center gap-1 px-4 py-2 text-sm text-white hover:bg-white/10 transition"
+                    >
+                      <LayoutDashboard size={18} />
+                      Dashboard
+                    </Link>
 
                     <button
                       onClick={handleSignOut}
-                      className="
+                      className=" flex items-center gap-1
                           w-full text-left px-4 py-2 text-sm font-semibold
                           text-red-400 hover:bg-red-500/20 cursor-pointer
                           transition rounded-b-2xl
                         "
                     >
-                      🚪 Logout
+                      <LogOut size={18} />
+                      Logout
                     </button>
                   </div>
                 </div>
@@ -146,14 +157,12 @@ const Navbar = () => {
               <Link
                 to="/login"
                 className="
-        px-4 py-1.5 
-        bg-gradient-to-r from-green-500/20 to-emerald-500/20
+        px-4 py-1.5 btn 
+        bg-gradient-to-r from-green-500/20 to-emerald-500/50
         text-white rounded-lg 
-        shadow-md shadow-green-300/30
-        hover:scale-105 hover:shadow-green-400/40
-        transition duration-300
       "
               >
+                <LogIn size={18} />
                 Login
               </Link>
             )}
@@ -175,44 +184,50 @@ const Navbar = () => {
         }`}
       >
         <div className="space-y-3 bg-green-400/20 shadow rounded-b-lg">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.name}
-              to={link.path}
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) =>
-                `block py-2 px-2 rounded ${
-                  isActive
-                    ? "bg-green-100 text-green-500 font-semibold "
-                    : "text-white hover:bg-green-100"
-                }`
-              }
-            >
-              {link.name}
-            </NavLink>
-          ))}
+          {navLinks.map((link) => {
+            const Icon = link.icon;
 
-          
-            <Link
-              to="/dashboard"
-              className="block px-2 py-2 text-sm text-white hover:bg-white/10 transition"
-            >
+            return (
+              <NavLink
+                key={link.name}
+                to={link.path}
+                onClick={() => setMenuOpen(false)}
+                className={({ isActive }) =>
+                  `flex items-center gap-2 py-2 px-2 rounded ${
+                    isActive
+                      ? "bg-green-100 text-green-500 font-semibold"
+                      : "text-white hover:bg-green-100"
+                  }`
+                }
+              >
+                {Icon && <Icon size={18} />}
+                {link.name}
+              </NavLink>
+            ); // ✅ semicolon এখানে থাকবে
+          })}
+
+          <Link
+            to="/dashboard"
+            className="flex items-center gap-2 px-2 py-2 text-sm text-white hover:bg-white/10 transition"
+          >
+            <LayoutDashboard size={18} />
             Dashboard
-            </Link>
-          
+          </Link>
 
           {!user ? (
             <Link
               to="/login"
-              className=" block text-center bg-green-500/50 font-semibold text-white py-2 rounded-lg"
+              className=" flex justify-center items-center gap-1 bg-green-500/50 font-semibold text-white py-2 rounded-lg"
             >
+              <LogIn size={18} />
               Login
             </Link>
           ) : (
             <button
               onClick={handleSignOut}
-              className="w-full text-center px-2 py-2 font-semibold text-red-500 bg-red-100 rounded-lg"
+              className="w-full flex justify-center items-center gap-1  px-2 py-2 font-semibold text-red-500 bg-red-100 rounded-lg"
             >
+              <LogOut size={18} />
               Logout
             </button>
           )}

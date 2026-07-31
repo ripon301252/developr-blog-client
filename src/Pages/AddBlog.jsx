@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { useAuth } from "../Hooks/useAuth";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import logoImg from "../assets/logo.png";
+import { PenLine, Send  } from "lucide-react";
 
 const AddBlog = () => {
   const { user, loading, setLoading } = useAuth();
@@ -18,9 +19,7 @@ const AddBlog = () => {
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
-      image:
-        user?.photoURL ||
-        "https://i.ibb.co/5Y3m33n/default-blog.jpg",
+      image: user?.photoURL || "https://i.ibb.co/5Y3m33n/default-blog.jpg",
     }));
   }, [user]);
 
@@ -78,18 +77,14 @@ const AddBlog = () => {
         setFormData({
           title: "",
           content: "",
-          image:
-            user?.photoURL ||
-            "https://i.ibb.co/5Y3m33n/default-blog.jpg",
+          image: user?.photoURL || "https://i.ibb.co/5Y3m33n/default-blog.jpg",
         });
       }
     } catch (err) {
       Swal.fire({
         icon: "error",
         title: "Failed",
-        text:
-          err.response?.data?.error ||
-          "Something went wrong!",
+        text: err.response?.data?.error || "Something went wrong!",
       });
     } finally {
       setLoading(false);
@@ -98,30 +93,61 @@ const AddBlog = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 text-white">
-      <h2 className="text-3xl font-bold mb-8 text-green-400 text-center">
-        ✍️ Create New Blog
+      <h2
+        className="
+    text-2xl md:text-3xl lg:text-4xl
+    font-bold mb-8
+    flex justify-center items-center gap-3
+
+    text-green-300
+    bg-gradient-to-r from-green-400 via-emerald-400 to-green-600
+    bg-clip-text text-transparent
+
+    backdrop-blur-md
+    px-6 py-3 rounded-xl
+
+    border border-green-400/30
+    shadow-[0_0_25px_rgba(34,197,94,0.25)]
+
+    w-fit mx-auto
+  "
+      >
+        <span className="p-2 rounded-lg bg-green-500/10 backdrop-blur-md border border-green-400/20">
+          <PenLine size={28} className="text-green-400" />
+        </span>
+
+        <span className="tracking-wide">Create New Blog</span>
       </h2>
 
       <div className="flex md:flex-row flex-col-reverse  justify-between items-center gap-5">
-        
         {/* LEFT - FORM */}
-        <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-lg border border-white/20 flex-1">
-
+        <div
+          className="
+    bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-green-700/10
+    backdrop-blur-xl
+    p-6 md:p-8
+    rounded-2xl
+    shadow-[0_0_40px_rgba(34,197,94,0.15)]
+    border border-green-400/20
+    flex-1
+  "
+        >
           {/* User Info */}
           <div className="flex items-center gap-4 mb-6">
-            <img
-              src={
-                user?.photoURL ||
-                "https://i.ibb.co/4pDNDk1/avatar.png"
-              }
-              className="w-14 h-14 rounded-lg border-2 border-green-400"
-              alt="user"
-            />
+            <div className="relative">
+              <img
+                src={user?.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
+                className="w-12 h-12 md:w-14 md:h-14 rounded-xl border-2 border-green-400 object-cover"
+                alt="user"
+              />
+              <span className="absolute inset-0 rounded-xl bg-green-400/20 blur-md"></span>
+            </div>
+
             <div>
-              <p className="font-semibold text-lg">
+              <p className="font-semibold text-base md:text-lg text-white">
                 {user?.displayName || "Guest"}
               </p>
-              <p className="text-sm text-gray-300">
+              <p className="text-xs md:text-sm text-gray-300">
                 {user?.email || "Not logged in"}
               </p>
             </div>
@@ -129,25 +155,40 @@ const AddBlog = () => {
 
           {/* FORM */}
           <form onSubmit={handleSubmit} className="space-y-5">
-
             {/* Title */}
             <input
               type="text"
               name="title"
-              placeholder="📝 Blog Title"
+              placeholder="Blog Title..."
               value={formData.title}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-white/10 border border-gray-500 focus:outline-none focus:border-green-400 transition"
+              className="
+        w-full p-3 rounded-xl
+        bg-white/5
+        border border-green-400/20
+        text-white placeholder-gray-400
+        focus:outline-none focus:border-green-400
+        focus:shadow-[0_0_15px_rgba(34,197,94,0.3)]
+        transition
+      "
             />
 
             {/* Content */}
             <textarea
               name="content"
-              placeholder="✍️ Write your blog..."
+              placeholder="Write your blog..."
               value={formData.content}
               onChange={handleChange}
               rows="5"
-              className="w-full p-3 rounded-lg bg-white/10 border border-gray-500 focus:outline-none focus:border-green-400 transition"
+              className="
+        w-full p-3 rounded-xl
+        bg-white/5
+        border border-green-400/20
+        text-white placeholder-gray-400
+        focus:outline-none focus:border-green-400
+        focus:shadow-[0_0_15px_rgba(34,197,94,0.3)]
+        transition
+      "
             />
 
             {/* Image */}
@@ -156,16 +197,36 @@ const AddBlog = () => {
               name="image"
               value={formData.image}
               readOnly
-              className="w-full p-2 rounded bg-white/5 border opacity-60 cursor-not-allowed"
+              className="
+        w-full p-3 rounded-xl
+        bg-white/5 border border-gray-500/30
+        text-gray-400 cursor-not-allowed
+      "
             />
 
             {/* Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-green-400 to-green-600 py-3 rounded-lg font-semibold hover:scale-[1.02] transition-all duration-200 flex justify-center items-center gap-2"
+              className="
+        w-full py-3 rounded-xl font-semibold
+        bg-gradient-to-r from-green-400/40 to-green-600/40
+        text-white cursor-pointer
+        hover:scale-[1.02]
+        hover:shadow-[0_0_25px_rgba(34,197,94,0.4)]
+        transition-all duration-200
+        flex justify-center items-center gap-2
+        disabled:opacity-50 disabled:cursor-not-allowed
+      "
             >
-              {loading ? "Publishing..." : "🚀 Publish Blog"}
+              {loading ? (
+                <span className="animate-pulse">Publishing...</span>
+              ) : (
+                <>
+                <Send />
+                Publish Blog
+                </>
+              )}
             </button>
           </form>
         </div>

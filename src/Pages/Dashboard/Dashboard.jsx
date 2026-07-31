@@ -6,6 +6,7 @@ import {
   ChartArea,
   Cuboid,
   HandHelping,
+  LogIn,
   LogOut,
   Motorbike,
   User,
@@ -169,6 +170,7 @@ useEffect(() => {
                   </>
                 ) : (
                   <Link to="/login" className="btn btn-sm rounded-full">
+                    <LogIn size={18} />
                     Login
                   </Link>
                 )}

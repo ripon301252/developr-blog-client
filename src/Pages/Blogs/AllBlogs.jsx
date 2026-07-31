@@ -5,6 +5,7 @@ import BlogList from "./BlogList";
 import BlogDetails from "./BlogDetails";
 import Comments from "./Comments";
 import Swal from "sweetalert2";
+import { Info } from "lucide-react";
 
 const AllBlogs = () => {
   const { user, loading } = useAuth();
@@ -21,16 +22,17 @@ const AllBlogs = () => {
   });
 
   // ✅ LOAD BLOGS
-useEffect(() => {
-  const fetchData = async () => {
-    if (loading || !user) return;
-    axiosAllBlogs.get("/blogs")
-    .then(res => setBlogs(res.data))
-    .catch(err => console.log(err));
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      if (loading || !user) return;
+      axiosAllBlogs
+        .get("/blogs")
+        .then((res) => setBlogs(res.data))
+        .catch((err) => console.log(err));
+    };
 
-  fetchData();
-}, [user, loading, axiosAllBlogs]);
+    fetchData();
+  }, [user, loading, axiosAllBlogs]);
 
   // ✅ LOAD COMMENTS
   useEffect(() => {
@@ -155,8 +157,32 @@ useEffect(() => {
 
         {/* 🔹 MIDDLE: BLOG DETAILS */}
         <div className="bg-white/10 p-4 rounded-xl md:col-span-2">
-          <h2 className="text-2xl font-bold text-center mb-5">Blog Details</h2>
-          {/* <div className="border-b-2 my-2 mx-36"></div> */}
+          <h2
+            className="
+    text-xl md:text-2xl lg:text-3xl
+    font-bold text-center mb-6
+
+    flex justify-center items-center gap-3
+
+    bg-gradient-to-r from-green-400 via-emerald-400 to-green-600
+    bg-clip-text text-transparent
+
+    backdrop-blur-md
+    px-5 py-3 rounded-xl
+
+    border border-green-400/20
+    shadow-[0_0_25px_rgba(34,197,94,0.2)]
+
+    w-fit mx-auto
+  "
+          >
+            <span className="p-2 rounded-lg bg-green-500/10 border border-green-400/20 backdrop-blur-md">
+              <Info size={24} className="text-green-400" />
+            </span>
+
+            <span className="tracking-wide">Blog Details</span>
+          </h2>
+
           <BlogDetails
             selectedBlog={selectedBlog}
             handleLike={handleLike}

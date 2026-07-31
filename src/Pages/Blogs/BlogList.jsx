@@ -1,4 +1,6 @@
+import { NotebookTabs } from "lucide-react";
 import React from "react";
+
 
 const BlogList = ({
   blogs,
@@ -9,9 +11,32 @@ const BlogList = ({
 }) => {
   return (
     <div className="space-y-4 col-span-1 md:max-h-[572.9px] max-h-[319.9px] overflow-y-auto hide-scrollbar">
-      <h2 className="text-2xl font-bold bg-green-950 rounded-b-sm text-center sticky top-0  py-2 z-10">
-        Blog List
-        {/* <div className="border-b-2 mt-2 mx-12"></div> */}
+      <h2
+        className="
+    sticky top-0 z-20
+    w-full
+
+    flex justify-center items-center gap-3
+
+    text-lg md:text-xl lg:text-2xl font-bold
+
+    bg-gradient-to-r from-green-500/10 via-emerald-500/10 to-green-700/10
+    backdrop-blur-xl
+
+    border-b border-green-400/20
+    py-3 px-4
+
+    shadow-[0_4px_25px_rgba(34,197,94,0.15)]
+  "
+      >
+        <span className="p-2 rounded-lg bg-green-500/10 border border-green-400/20 backdrop-blur-md">
+          <NotebookTabs size={22} className="text-green-400" />
+        </span>
+        
+
+        <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-green-600 bg-clip-text text-transparent tracking-wide">
+          Blog List
+        </span>
       </h2>
 
       {blogs.map((blog) => {
@@ -50,9 +75,13 @@ const BlogList = ({
               </span>
               <span>
                 {isViewed ? (
-                  <span className="text-sm text-green-400/80 font-semibold">✔ Read</span>
+                  <span className="text-sm text-green-400/80 font-semibold">
+                    ✔ Read
+                  </span>
                 ) : (
-                  <span className="text-sm text-red-400/80 font-semibold">○ Unread</span>
+                  <span className="text-sm text-red-400/80 font-semibold">
+                    ○ Unread
+                  </span>
                 )}
               </span>
             </div>

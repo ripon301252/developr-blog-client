@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { MessageSquareMore } from "lucide-react";
 
 const Comments = ({
   selectedBlog,
@@ -99,7 +100,30 @@ const Comments = ({
   };
   return (
     <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl col-span-1 border border-white/10">
-      <h2 className="text-xl font-semibold mb-3 text-white">💬 Comments</h2>
+      <h2
+        className="
+    flex items-center gap-3
+    text-lg md:text-xl font-semibold
+
+    bg-gradient-to-r from-green-500/10 via-emerald-500/10 to-green-700/10
+    backdrop-blur-md
+
+    border border-green-400/20
+    rounded-xl
+
+    px-4 py-3 mb-4
+
+    shadow-[0_4px_20px_rgba(34,197,94,0.15)]
+  "
+      >
+        <span className="p-2 rounded-lg bg-green-500/10 border border-green-400/20">
+          <MessageSquareMore size={20} className="text-green-400" />
+        </span>
+
+        <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-green-600 bg-clip-text text-transparent">
+          Comments
+        </span>
+      </h2>
 
       {/* ➕ ADD COMMENT */}
       {selectedBlog && (
