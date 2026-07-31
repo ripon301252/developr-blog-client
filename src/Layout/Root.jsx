@@ -2,6 +2,8 @@ import React from 'react';
 import Navbar from '../Component/Navbar';
 import { Outlet } from 'react-router';
 import Footer from '../Component/Footer';
+import Chat from '../Pages/Messages/Chat';
+import ChatButton from '../Pages/Messages/ChatButton';
 
 const Root = () => {
     return (

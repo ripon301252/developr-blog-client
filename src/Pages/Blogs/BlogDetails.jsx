@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { PenLine, Trash2, ThumbsUp, PenLineIcon } from "lucide-react";
 
 const BlogDetails = ({
   selectedBlog,
@@ -38,53 +39,45 @@ const BlogDetails = ({
 
   // ✅ UPDATE BLOG
   const handleUpdate = async () => {
-  try {
-    // ✅ Check no changes
-    if (
-      editData.title === selectedBlog.title &&
-      editData.content === selectedBlog.content
-    ) {
-      Swal.fire(
-        "No Changes!",
-        "Please update something before saving.",
-        "warning"
+    try {
+      // ✅ Check no changes
+      if (
+        editData.title === selectedBlog.title &&
+        editData.content === selectedBlog.content
+      ) {
+        Swal.fire(
+          "No Changes!",
+          "Please update something before saving.",
+          "warning",
+        );
+
+        return;
+      }
+
+      const res = await axiosAllBlogs.patch(
+        `/blogs/${selectedBlog._id}`,
+        editData,
       );
 
-      return;
+      setBlogs((prev) =>
+        prev.map((b) => (b._id === selectedBlog._id ? res.data : b)),
+      );
+
+      setSelectedBlog(res.data);
+
+      Swal.fire({
+        icon: "success",
+        title: "Updated!",
+        text: "Blog updated successfully",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire("Error!", "Update failed", error);
+    } finally {
+      document.getElementById("edit_modal")?.close();
     }
-
-    const res = await axiosAllBlogs.patch(
-      `/blogs/${selectedBlog._id}`,
-      editData
-    );
-
-    setBlogs((prev) =>
-      prev.map((b) =>
-        b._id === selectedBlog._id ? res.data : b
-      )
-    );
-
-    setSelectedBlog(res.data);
-
-    Swal.fire({
-      icon: "success",
-      title: "Updated!",
-      text: "Blog updated successfully",
-      timer: 1500,
-      showConfirmButton: false,
-    });
-
-  } catch (error) {
-    Swal.fire(
-      "Error!",
-      "Update failed",
-      error
-    );
-  } finally {
-    
-    document.getElementById("edit_modal")?.close();
-  }
-};
+  };
 
   // ✅ DELETE BLOG
   const handleDeleteBlog = async () => {
@@ -110,7 +103,7 @@ const BlogDetails = ({
       Swal.fire({
         icon: "success",
         title: "Deleted!",
-        text: "Blog removed successfully 🗑️",
+        text: "Blog removed successfully",
         timer: 1500,
         showConfirmButton: false,
       });
@@ -153,26 +146,45 @@ const BlogDetails = ({
         {/* LIKE */}
         <button
           onClick={() => handleLike(selectedBlog._id)}
-          className="flex items-center gap-1 text-sm text-gray-300 hover:text-red-400 transition"
+          className="
+    flex items-center gap-2
+    px-4 py-1.5
+    rounded-full
+    bg-white/10 backdrop-blur-md
+    border border-white/20
+    text-gray-200 text-sm
+    hover:shadow-[0_0_12px_rgba(248,113,113,0.5)]
+    hover:scale-105 active:scale-95
+    transition duration-300 cursor-pointer
+  "
         >
-          ❤️ <span>{selectedBlog.likes?.length || 0}</span>
+          <ThumbsUp size={16} />
+          <span className="font-medium">{selectedBlog.likes?.length || 0}</span>
         </button>
 
         {/* BUTTONS */}
-        <div className="flex gap-3 mt-3">
+        <div className="flex items-center gap-2">
+          {/* DELETE BUTTON */}
           <button
             onClick={handleDeleteBlog}
             disabled={!isOwner}
-            className={`px-4 py-1 rounded-lg text-sm transition
+            className={`
+      flex items-center justify-center
+      w-9 h-9 rounded-lg
+      backdrop-blur-md border
+      transition duration-300
+      
       ${
         isOwner
-          ? "bg-red-500/30 hover:bg-red-500/50 text-white"
-          : "bg-gray-500/20 text-gray-400 cursor-not-allowed"
-      }`}
+          ? "bg-red-500/10 border-red-400/30 text-red-400 hover:bg-red-500/20 hover:shadow-[0_0_12px_rgba(239,68,68,0.5)] cursor-pointer"
+          : "bg-gray-500/10 border-gray-400/20 text-gray-400 cursor-not-allowed "
+      }
+    `}
           >
-            Delete
+            <Trash2 size={16} />
           </button>
 
+          {/* EDIT BUTTON */}
           <button
             onClick={() => {
               if (!isOwner) {
@@ -186,61 +198,114 @@ const BlogDetails = ({
               document.getElementById("edit_modal").showModal();
             }}
             disabled={!isOwner}
-            className={`px-4 py-1 rounded-lg text-sm transition
+            className={`
+      flex items-center justify-center
+      w-9 h-9 rounded-lg
+      backdrop-blur-md border
+      transition duration-300 
+
       ${
         isOwner
-          ? "bg-green-500/30 hover:bg-green-500/50 text-white"
-          : "bg-gray-500/20 text-gray-400 cursor-not-allowed"
-      }`}
+          ? "bg-green-500/10 border-green-400/30 text-green-400 hover:bg-green-500/20 hover:shadow-[0_0_12px_rgba(34,197,94,0.5)] cursor-pointer"
+          : "bg-gray-500/10 border-gray-400/20 text-gray-400 cursor-not-allowed"
+      }
+    `}
           >
-            Edit
+            <PenLine size={16} />
           </button>
         </div>
       </div>
 
       {/* 🔥 MODAL */}
       <dialog id="edit_modal" className="modal modal-middle">
-        <div className="modal-box bg-white text-black rounded-xl">
-          <h3 className="font-bold text-lg mb-3">✏️ Edit Blog</h3>
+        <div
+          className="
+      modal-box 
+      w-full max-w-lg
+      bg-white/10 backdrop-blur-xl
+      border border-green-400/20
+      shadow-[0_0_40px_rgba(34,197,94,0.25)]
+      text-white 
+      rounded-2xl
+    "
+        >
+          {/* Title */}
+          <h3 className="font-bold text-xl mb-4 flex items-center gap-3 text-green-400">
+            <PenLineIcon />
+            <span className="">Edit Blog</span>
+          </h3>
 
+          {/* Title Input */}
           <input
             value={editData.title}
             onChange={(e) =>
               setEditData({ ...editData, title: e.target.value })
             }
-            className="w-full p-2 border rounded-md mb-2"
-            placeholder="Title"
+            className="
+        w-full p-3 mb-3
+        bg-white/10
+        border border-green-400/20
+        rounded-lg
+        focus:outline-none
+        focus:ring-2 focus:ring-green-400
+        placeholder-gray-300
+      "
+            placeholder="Enter blog title..."
           />
 
+          {/* Content */}
           <textarea
             value={editData.content}
             onChange={(e) =>
               setEditData({ ...editData, content: e.target.value })
             }
-            className="w-full p-2 border rounded-md"
             rows="5"
-            placeholder="Content"
+            className="
+        w-full p-3
+        bg-white/10
+        border border-green-400/20
+        rounded-lg
+        focus:outline-none
+        focus:ring-2 focus:ring-green-400
+        placeholder-gray-300
+      "
+            placeholder="Write your content..."
           />
 
-          <div className="mt-4 flex justify-end gap-2">
+          {/* Buttons */}
+          <div className="mt-6 flex flex-col sm:flex-row justify-end gap-3">
+            {/* Save */}
             <button
               onClick={() => {
                 handleUpdate();
                 document.getElementById("edit_modal").close();
               }}
-              className="px-4 py-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+              className="
+          px-5 py-2
+          bg-gradient-to-r from-green-400 to-emerald-500
+          hover:from-green-500 hover:to-emerald-600
+          text-white font-semibold
+          rounded-lg
+          shadow-lg shadow-green-500/30
+          transition duration-300 cursor-pointer
+        "
             >
-              Save
+              Save Changes
             </button>
 
+            {/* Close */}
             <button
-              className="px-4 py-1 bg-gray-300 rounded-md"
-              onClick={() => {
-                // setIsEditing(false);
-                document.getElementById("edit_modal").close();
-              }}
+              onClick={() => document.getElementById("edit_modal").close()}
+              className="
+          px-5 py-2
+          bg-white/10
+          border border-white/20
+          hover:bg-white/20
+          rounded-lg
+          transition duration-300 cursor-pointer
+        "
             >
-              Close
+              Cancel
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
-import { MessageSquareMore } from "lucide-react";
+import { MessageCircleMore, MessageSquareMore, PenLine, Trash2, User } from "lucide-react";
 
 const Comments = ({
   selectedBlog,
@@ -137,14 +137,14 @@ const Comments = ({
 
           <button
             onClick={handleComment}
-            className="bg-green-500 hover:bg-green-600 px-4 py-2 mt-2 rounded w-full text-white transition"
+            className="bg-green-500/50 hover:bg-green-600/50 px-4 py-2 mt-2 rounded w-full text-white transition cursor-pointer"
           >
             Post
           </button>
         </>
       )}
 
-      {/* 📜 COMMENT LIST */}
+      {/*  COMMENT LIST */}
       <div className="mt-4 space-y-3 max-h-[400px] overflow-y-auto pr-1 hide-scrollbar">
         {comments.map((c) => {
           const owner = isOwner(c.userEmail);
@@ -163,17 +163,40 @@ const Comments = ({
                     className="input input-class"
                   />
 
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex items-center gap-2 mt-3">
+                    {/* SAVE */}
                     <button
                       onClick={() => handleUpdateComment(c._id)}
-                      className="text-xs bg-green-900 px-2 py-1 rounded text-white cursor-pointer"
+                      className="
+      flex items-center justify-center
+      px-4 py-1.5 rounded-md
+      text-sm font-medium
+      bg-gradient-to-r from-green-400 to-emerald-500
+      hover:from-green-500 hover:to-emerald-600
+      text-white
+      shadow-md shadow-green-500/30
+      hover:shadow-green-500/50
+      hover:scale-105 active:scale-95
+      transition duration-300
+    "
                     >
                       Save
                     </button>
 
+                    {/* CANCEL */}
                     <button
                       onClick={() => setEditingComment(null)}
-                      className="text-xs bg-gray-400 px-2 py-1 rounded cursor-pointer"
+                      className="
+      flex items-center justify-center
+      px-4 py-1.5 rounded-md
+      text-sm font-medium
+      bg-white/10 backdrop-blur-md
+      border border-white/20
+      text-gray-200
+      hover:bg-white/20
+      hover:scale-105 active:scale-95
+      transition duration-300
+    "
                     >
                       Cancel
                     </button>
@@ -181,35 +204,55 @@ const Comments = ({
                 </>
               ) : (
                 <>
-                  <p className="text-gray-200 text-sm">{c.text}</p>
-                  <p className="text-xs text-gray-400 mt-1">✍️ {c.userName}</p>
+                  <p className="text-gray-200 text-sm flex items-center gap-2">
+                    {/* <MessageCircleMore size={16} /> */}
+                    {c.text}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                    <User size={16} />
+                    {c.userName}
+                  </p>
 
                   {/* 🔥 ACTIONS */}
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex items-center gap-2 mt-2">
+                    {/* DELETE */}
                     <button
                       disabled={!owner}
                       onClick={() => handleDeleteComment(c._id)}
-                      className={`text-xs px-2 py-1 rounded transition
-                        ${
-                          owner
-                            ? "bg-red-500/30 hover:bg-red-500/50 text-white cursor-pointer"
-                            : "bg-gray-500/80 text-white cursor-not-allowed"
-                        }`}
+                      className={`
+      flex items-center justify-center
+      w-8 h-8 rounded-md
+      backdrop-blur-md border
+      transition duration-300
+
+      ${
+        owner
+          ? "bg-red-500/10 border-red-400/30 text-red-400 hover:bg-red-500/20 hover:shadow-[0_0_10px_rgba(239,68,68,0.5)] hover:scale-110 active:scale-95 cursor-pointer"
+          : "bg-gray-500/10 border-gray-400/20 text-gray-400 cursor-not-allowed"
+      }
+    `}
                     >
-                      Delete
+                      <Trash2 size={14} />
                     </button>
 
+                    {/* EDIT */}
                     <button
                       disabled={!owner}
                       onClick={() => handleEditComment(c)}
-                      className={`text-xs px-2 py-1 rounded transition 
-                        ${
-                          owner
-                            ? "bg-green-500/30 hover:bg-green-500/50 text-white cursor-pointer"
-                            : "bg-gray-500/80 text-white cursor-not-allowed"
-                        }`}
+                      className={`
+      flex items-center justify-center
+      w-8 h-8 rounded-md
+      backdrop-blur-md border
+      transition duration-300
+
+      ${
+        owner
+          ? "bg-green-500/10 border-green-400/30 text-green-400 hover:bg-green-500/20 hover:shadow-[0_0_10px_rgba(34,197,94,0.5)] hover:scale-110 active:scale-95 cursor-pointer"
+          : "bg-gray-500/10 border-gray-400/20 text-gray-400 cursor-not-allowed"
+      }
+    `}
                     >
-                      Edit
+                      <PenLine size={14} />
                     </button>
                   </div>
                 </>

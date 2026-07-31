@@ -7,7 +7,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 // import useRole from "../Hooks/useRole";
 import { MdOutlineHome } from "react-icons/md";
 import { TbBrandBlogger } from "react-icons/tb";
-import { LogIn, LogOut, LayoutDashboard, User } from "lucide-react";
+import { LogIn, LogOut, LayoutDashboard, User, MessageCircleMore } from "lucide-react";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
@@ -50,7 +50,7 @@ const Navbar = () => {
     ...(user
       ? [{ name: "All Blogs", icon: TbBrandBlogger, path: "/all-blogs" }]
       : []),
-    // { name: "Contact", path: "/contact" },
+    { name: "Chats", icon: MessageCircleMore , path: "/chats" },
   ];
 
   return (
@@ -73,7 +73,7 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   `flex items-center gap-1 relative font-medium transition ${
                     isActive
-                      ? "text-green-500 border-b-2"
+                      ? "text-green-500 "
                       : "text-white hover:text-green-500"
                   }`
                 }

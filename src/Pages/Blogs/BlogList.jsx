@@ -1,6 +1,5 @@
-import { NotebookTabs } from "lucide-react";
+import { NotebookTabs, ThumbsUp } from "lucide-react";
 import React from "react";
-
 
 const BlogList = ({
   blogs,
@@ -32,7 +31,6 @@ const BlogList = ({
         <span className="p-2 rounded-lg bg-green-500/10 border border-green-400/20 backdrop-blur-md">
           <NotebookTabs size={22} className="text-green-400" />
         </span>
-        
 
         <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-green-600 bg-clip-text text-transparent tracking-wide">
           Blog List
@@ -63,25 +61,51 @@ const BlogList = ({
               {blog.content.slice(0, 30)}...
             </p>
 
-            <div className="flex justify-between items-center">
-              <span
+            <div className="flex justify-between items-center mt-3">
+              {/* LIKE BUTTON */}
+              <button
                 onClick={(e) => {
                   e.stopPropagation();
                   handleLike(blog._id);
                 }}
-                className="cursor-pointer text-sm text-gray-300 hover:text-red-400"
+                className="
+      flex items-center gap-1.5
+      px-3 py-1 rounded-full
+      bg-white/5 backdrop-blur-md
+      border border-white/10
+      text-gray-300 text-sm
+      hover:shadow-[0_0_10px_rgba(248,113,113,0.4)]
+      transition duration-300 cursor-pointer
+    "
               >
-                ❤️ {blog.likes?.length || 0}
-              </span>
-              <span>
+                <ThumbsUp size={16} />
+                <span>{blog.likes?.length || 0}</span>
+              </button>
+
+              {/* READ STATUS */}
+              <span
+                className={`
+      flex items-center gap-1.5
+      px-3 py-1 rounded-full
+      text-xs font-semibold
+      backdrop-blur-md border
+      transition duration-300
+      
+      ${
+        isViewed
+          ? "bg-green-500/10 border-green-400/30 text-green-400 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+          : "bg-red-500/10 border-red-400/30 text-red-400"
+      }
+    `}
+              >
                 {isViewed ? (
-                  <span className="text-sm text-green-400/80 font-semibold">
-                    ✔ Read
-                  </span>
+                  <>
+                    ✔ <span>Read</span>
+                  </>
                 ) : (
-                  <span className="text-sm text-red-400/80 font-semibold">
-                    ○ Unread
-                  </span>
+                  <>
+                    ○ <span>Unread</span>
+                  </>
                 )}
               </span>
             </div>

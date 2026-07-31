@@ -61,7 +61,7 @@ const AllBlogs = () => {
       return Swal.fire({
         icon: "warning",
         title: "Login Required",
-        text: "Please login to like blogs ❤️",
+        text: "Please login to like blogs",
       });
     }
 
@@ -91,7 +91,7 @@ const AllBlogs = () => {
       return Swal.fire({
         icon: "warning",
         title: "Login Required",
-        text: "Please login to comment 💬",
+        text: "Please login to comment ",
       });
     }
 

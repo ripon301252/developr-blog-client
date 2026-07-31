@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Pages/Dashboard/dashboard";
 import UserProfile from "../Pages/Dashboard/UserProfile";
 import UserManagement from "../Pages/Dashboard/UserManagement";
+import Chat from "../Pages/Messages/Chat";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: "/all-blogs",
         element: <AllBlogs />,
+      },
+      {
+        path: "/chats",
+        element: <Chat />,
       },
     ],
   },
@@ -60,11 +65,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: (
-      
-        <Dashboard />
-      
-    ),
+    element: <Dashboard />,
     children: [
       {
         path: "profile",
