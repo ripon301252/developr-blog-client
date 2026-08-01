@@ -3,6 +3,7 @@ import { useAuth } from "../Hooks/useAuth";
 import Swal from "sweetalert2";
 import Logo from "../Component/Logo";
 import { Link, useNavigate } from "react-router";
+import { FaLongArrowAltLeft } from "react-icons/fa";
 
 const Profile = () => {
   const { user, setUser, updateUserProfile } = useAuth();
@@ -33,6 +34,19 @@ const Profile = () => {
   };
 
   const handleSave = async () => {
+    // 🔍 check if anything changed
+    const isChanged =
+      formData.displayName !== (user.displayName || "") ||
+      formData.photoURL !== (user.photoURL || "");
+
+    if (!isChanged) {
+      return Swal.fire({
+        icon: "info",
+        title: "No Changes",
+        text: "You didn't change anything ",
+      });
+    }
+
     const confirm = await Swal.fire({
       title: "Update Profile?",
       text: "Do you want to save changes?",
@@ -57,7 +71,7 @@ const Profile = () => {
       Swal.fire({
         icon: "success",
         title: "Updated!",
-        text: "Profile updated successfully 🚀",
+        text: "Profile updated successfully ",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -88,9 +102,10 @@ const Profile = () => {
           <div className="p-6 text-center ">
             <div
               onClick={() => navigate(-1)}
-              className="text-left -mt-36 cursor-pointer font-semibold"
+              className="text-left -mt-36 cursor-pointer font-semibold flex items-center gap-2"
             >
-              ← Go Back
+              <FaLongArrowAltLeft />
+              Go Back
             </div>
             {/* Avatar */}
             <div className="mt-12">

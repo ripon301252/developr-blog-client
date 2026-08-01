@@ -17,6 +17,7 @@ const UserManagement = () => {
   const { role } = useRole();
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
+  const [loading, setLoading] = useState(true);
   const axiosUserManagement = useAxiosSecure();
   // search
   const [searchText, setSearchText] = useState("");
@@ -29,6 +30,8 @@ const UserManagement = () => {
   // search & pagination
   const fetchUsers = async (search = "", page = 1) => {
     try {
+      setLoading(true); // ✅ start loading
+
       const res = await axiosUserManagement.get(
         `/users?search=${search}&page=${page}&limit=${limit}`,
       );
@@ -37,6 +40,8 @@ const UserManagement = () => {
       setTotalUsers(res.data.total);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false); // ✅ stop loading (MOST IMPORTANT)
     }
   };
 
@@ -231,106 +236,114 @@ const UserManagement = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl bg-white/5 backdrop-blur-xl border border-green-400/20 shadow-xl p-4">
-        <table className="table text-white">
-          <thead>
-            <tr className="text-green-300 text-sm uppercase">
-              <th>No.</th>
-              <th>Name</th>
-              <th>Role</th>
-              <th>Create-Date</th>
-              <th>Update-Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {users.map((user, index) => (
-              <tr
-                key={user._id}
-                className="hover:bg-green-400/10 hover:rounded-xs  transition duration-300"
-              >
-                <th className="text-green-400">
-                  {(currentPage - 1) * limit + index + 1}
-                </th>
-
-                {/* User */}
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="h-12 w-12 rounded-xl ring ring-green-400/30 ring-offset-2 ring-offset-green-900/20">
-                        <img src={user.photoURL} alt="User" />
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="font-semibold text-white">
-                        {user.name}
-                      </div>
-                      <div className="text-sm text-gray-400">{user.email}</div>
-                    </div>
-                  </div>
-                </td>
-
-                {/* Role */}
-                <td>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md border ${
-                      user.role === "admin"
-                        ? "bg-blue-400/10 text-blue-400 border-blue-400/30"
-                        : "bg-green-400/10 text-green-400 border-green-400/30"
-                    }`}
-                  >
-                    {user.role}
-                  </span>
-                </td>
-
-                {/* Dates */}
-                <td className="text-gray-300 text-sm">
-                  {new Date(user.createdAt).toLocaleString()}
-                </td>
-
-                <td className="text-gray-300 text-sm">
-                  {new Date(user.updatedAt).toLocaleString()}
-                </td>
-
-                {/* Actions */}
-                <td>
-                  <div className="flex gap-2">
-                    {/* View */}
-                    <button
-                      onClick={() => handleView(user._id)}
-                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white transition cursor-pointer hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]"
-                    >
-                      <Eye size={16} />
-                    </button>
-
-                    {role === "admin" && (
-                      <>
-                        {/* Edit */}
-                        <button
-                          onClick={() => handleEdit(user)}
-                          className="p-2 rounded-full bg-green-500/20 hover:bg-green-500/40 backdrop-blur-md border border-green-400/30 text-green-300 transition cursor-pointer hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]"
-                        >
-                          <PencilLine size={16} />
-                        </button>
-
-                        {/* Delete */}
-                        <button
-                          onClick={() => handleDelete(user._id)}
-                          className="p-2 rounded-full bg-red-500/20 hover:bg-red-500/40 backdrop-blur-md border border-red-400/30 text-red-300 transition cursor-pointer hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </td>
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <span className="loading loading-bars loading-xl"></span>
+        </div>
+      ) : (
+        <div className="overflow-x-auto rounded-2xl bg-white/5 backdrop-blur-xl border border-green-400/20 shadow-xl p-4">
+          <table className="table text-white">
+            <thead>
+              <tr className="text-green-300 text-sm uppercase">
+                <th>No.</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Create-Date</th>
+                <th>Update-Date</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+
+            <tbody>
+              {users.map((user, index) => (
+                <tr
+                  key={user._id}
+                  className="hover:bg-green-400/10 hover:rounded-xs  transition duration-300"
+                >
+                  <th className="text-green-400">
+                    {(currentPage - 1) * limit + index + 1}
+                  </th>
+
+                  {/* User */}
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">
+                        <div className="h-12 w-12 rounded-xl ring ring-green-400/30 ring-offset-2 ring-offset-green-900/20">
+                          <img src={user.photoURL} alt="User" />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="font-semibold text-white">
+                          {user.name}
+                        </div>
+                        <div className="text-sm text-gray-400">
+                          {user.email}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* Role */}
+                  <td>
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md border ${
+                        user.role === "admin"
+                          ? "bg-blue-400/10 text-blue-400 border-blue-400/30"
+                          : "bg-green-400/10 text-green-400 border-green-400/30"
+                      }`}
+                    >
+                      {user.role}
+                    </span>
+                  </td>
+
+                  {/* Dates */}
+                  <td className="text-gray-300 text-sm">
+                    {new Date(user.createdAt).toLocaleString()}
+                  </td>
+
+                  <td className="text-gray-300 text-sm">
+                    {new Date(user.updatedAt).toLocaleString()}
+                  </td>
+
+                  {/* Actions */}
+                  <td>
+                    <div className="flex gap-2">
+                      {/* View */}
+                      <button
+                        onClick={() => handleView(user._id)}
+                        className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white transition cursor-pointer hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]"
+                      >
+                        <Eye size={16} />
+                      </button>
+
+                      {role === "admin" && (
+                        <>
+                          {/* Edit */}
+                          <button
+                            onClick={() => handleEdit(user)}
+                            className="p-2 rounded-full bg-green-500/20 hover:bg-green-500/40 backdrop-blur-md border border-green-400/30 text-green-300 transition cursor-pointer hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]"
+                          >
+                            <PencilLine size={16} />
+                          </button>
+
+                          {/* Delete */}
+                          <button
+                            onClick={() => handleDelete(user._id)}
+                            className="p-2 rounded-full bg-red-500/20 hover:bg-red-500/40 backdrop-blur-md border border-red-400/30 text-red-300 transition cursor-pointer hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* pageination */}
       <div className="flex flex-wrap justify-center items-center gap-2 mt-6">

@@ -3,6 +3,7 @@ import { useAuth } from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 
 import { Link, useNavigate } from "react-router";
+import { FaLongArrowAltLeft } from "react-icons/fa";
 
 const UserProfile = () => {
   const { user, setUser, updateUserProfile } = useAuth();
@@ -96,9 +97,10 @@ const UserProfile = () => {
           <div className="p-6 text-center ">
             <div
               onClick={() => navigate(-1)}
-              className="text-left -mt-36 cursor-pointer font-semibold"
+              className="text-left -mt-36 cursor-pointer font-semibold flex items-center gap-2"
             >
-              ← Go Back
+              <FaLongArrowAltLeft />
+              Go Back
             </div>
             {/* Avatar */}
             <div className="mt-12">

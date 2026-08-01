@@ -12,6 +12,8 @@ const Chat = () => {
 
   const [socket, setSocket] = useState(null);
 
+  const [loadingUsers, setLoadingUsers] = useState(true);
+
   useEffect(() => {
     const savedTarget = localStorage.getItem("chatTarget");
 
@@ -34,15 +36,20 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    axiosChat
-      .get("/users")
-      .then((res) => {
-        console.log("API DATA 👉", res.data);
+    const fetchUsers = async () => {
+      try {
+        setLoadingUsers(true);
 
-        // 🔥 correct way
+        const res = await axiosChat.get("/users");
         setUsers(res.data.users);
-      })
-      .catch((err) => console.log("ERROR:", err));
+      } catch (err) {
+        console.log("ERROR:", err);
+      } finally {
+        setLoadingUsers(false);
+      }
+    };
+
+    fetchUsers();
   }, [axiosChat]);
   console.log(users);
 
@@ -54,38 +61,45 @@ const Chat = () => {
       >
         <h2 className="text-xl font-semibold p-[21.8px] border-b border-white/10 rounded-tl-selector backdrop-blur-md sticky top-0 z-10 flex items-center gap-2 ">
           <MessageSquareText size={24} />
-           Chat List
+          Chat List
         </h2>
 
         <div className="overflow-y-auto flex-1 hide-scrollbar">
-          {users.map((user) => (
-            <div
-              key={user._id}
-              onClick={() => {
-                setTarget(user);
-                localStorage.setItem("chatTarget", JSON.stringify(user));
-              }}
-              className={`flex items-center gap-3 p-4 cursor-pointer transition-all duration-300
+          {loadingUsers ? (
+            <div className="flex justify-center items-center h-full">
+              <span className="loading loading-bars loading-lg"></span>
+            </div>
+          ) : users.length === 0 ? (
+            <p className="text-center text-gray-400 mt-5">No users found</p>
+          ) : (
+            users.map((user) => (
+              <div
+                key={user._id}
+                onClick={() => {
+                  setTarget(user);
+                  localStorage.setItem("chatTarget", JSON.stringify(user));
+                }}
+                className={`flex items-center gap-3 p-4 cursor-pointer transition-all duration-300
               hover:bg-green-500/10 hover:scale-[1.02]
               ${target?._id === user._id ? "bg-green-500/20" : ""}
             `}
-            >
-              <img
-                src={user.photoURL}
-                className="w-12 h-12 rounded-full border-2 border-green-400/40"
-              />
+              >
+                <img
+                  src={user.photoURL}
+                  className="w-12 h-12 rounded-full border-2 border-green-400/40"
+                />
 
-              <div className="flex-1">
-                <p className="font-medium">{user.name}</p>
-                <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                <div className="flex-1">
+                  <p className="font-medium">{user.name}</p>
+                  <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                </div>
+
+                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
               </div>
-
-              <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
-
       {/* RIGHT SIDE */}
       <div
         className={`

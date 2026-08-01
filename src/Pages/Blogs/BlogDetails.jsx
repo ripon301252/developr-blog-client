@@ -9,6 +9,7 @@ const BlogDetails = ({
   setBlogs,
   setSelectedBlog,
   axiosAllBlogs,
+  loading,
 }) => {
   const { user } = useAuth();
 
@@ -28,10 +29,17 @@ const BlogDetails = ({
     }
   }, [selectedBlog]);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <span className="loading loading-bars loading-xl"></span>
+      </div>
+    );
+  }
+
   if (!selectedBlog) {
     return (
       <p className="text-gray-400/40 text-3xl text-center mt-10">
-        {" "}
         Select a blog
       </p>
     );

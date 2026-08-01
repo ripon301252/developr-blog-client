@@ -23,6 +23,7 @@ const Dashboard = () => {
   const axiosDashboard = useAxiosSecure();
   const [avatarOpen, setAvatarOpen] = useState(false);
   const avatarRef = useRef();
+  const [loggedOut, setLoggedOut] = useState(false);
 
   const { role } = useRole();
   const { user, signOutUser } = useAuth();
@@ -181,12 +182,14 @@ const Dashboard = () => {
 
                 {/* LEFT */}
                 <div className="relative z-10 flex-1">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white flex items-center gap-2">
-                    Welcome back,{" "}
-                    <span className="text-green-400 ">
+                  <h2 className="text-xl md:text-3xl font-bold text-white flex items-center gap-2 flex-wrap">
+                    <span>Welcome back,</span>
+
+                    <span className="text-green-400">
                       {user?.displayName || "User"}
-                    </span>{" "}
-                    <FaHands className="text-yellow-600" />
+                    </span>
+
+                    <FaHands className="text-yellow-500 translate-y-[2px]" />
                   </h2>
 
                   <p className="text-gray-400 mt-2">
@@ -219,7 +222,7 @@ const Dashboard = () => {
                       >
                         <p className="text-xs text-gray-400">{item.label}</p>
                         <h3 className="text-3xl font-bold text-green-400 mt-2">
-                          {loading ? "..." : item.value}
+                          {loading ? <span className="loading loading-dots loading-xs"></span> : item.value}
                         </h3>
 
                         {/* hover glow */}

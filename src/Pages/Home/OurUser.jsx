@@ -41,17 +41,19 @@ const OurUser = () => {
       </h2>
 
       {/* Marquee */}
-      <Marquee
-        speed={25}
-        pauseOnHover
-        gradient={false}
-        autoFill
-      >
-        {users.map((user) => (
-          <div key={user._id} className="mx-4 min-w-[190px]">
-            {/* Card */}
-            <div
-              className="
+      {users.length === 0 ? (
+        <p className="text-center text-gray-400">
+          <div className="flex justify-center items-center gap-2">
+            <span className="loading loading-bars loading-xl"></span>
+          </div>
+        </p>
+      ) : (
+        <Marquee speed={25} pauseOnHover gradient={false} autoFill>
+          {users.map((user) => (
+            <div key={user._id} className="mx-4 min-w-[190px]">
+              {/* Card */}
+              <div
+                className="
             bg-white/5 backdrop-blur-2xl
             border border-white/10
             rounded-2xl
@@ -59,41 +61,42 @@ const OurUser = () => {
 
             shadow-[0_10px_30px_rgba(0,0,0,0.3)]
           "
-            >
-              {/* Image */}
-              <div className="relative w-20 h-20 mx-auto">
-                <img
-                  src={user.photoURL || "https://via.placeholder.com/100"}
-                  alt={user.name}
-                  className="
+              >
+                {/* Image */}
+                <div className="relative w-20 h-20 mx-auto">
+                  <img
+                    src={user.photoURL || "https://via.placeholder.com/100"}
+                    alt={user.name}
+                    className="
                 w-20 h-20 rounded-full object-cover
                 border-2 border-green-400
                 shadow-[0_0_15px_rgba(34,197,94,0.3)]
               "
-                />
+                  />
 
-                {/* Online Dot */}
-                <span
-                  className="
+                  {/* Online Dot */}
+                  <span
+                    className="
                 absolute bottom-1 right-1
                 w-3 h-3 bg-green-400
                 border-2 border-black
                 rounded-full
               "
-                ></span>
+                  ></span>
+                </div>
+
+                {/* Name */}
+                <h2 className="mt-4 text-white font-semibold text-sm tracking-wide">
+                  {user.name}
+                </h2>
+
+                {/* Decorative Line */}
+                <div className="mt-3 w-10 h-[2px] bg-gradient-to-r from-green-400 to-emerald-500 mx-auto opacity-70"></div>
               </div>
-
-              {/* Name */}
-              <h2 className="mt-4 text-white font-semibold text-sm tracking-wide">
-                {user.name}
-              </h2>
-
-              {/* Decorative Line */}
-              <div className="mt-3 w-10 h-[2px] bg-gradient-to-r from-green-400 to-emerald-500 mx-auto opacity-70"></div>
             </div>
-          </div>
-        ))}
-      </Marquee>
+          ))}
+        </Marquee>
+      )}
     </div>
   );
 };

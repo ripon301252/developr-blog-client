@@ -10,6 +10,7 @@ import { Info } from "lucide-react";
 const AllBlogs = () => {
   const { user, loading } = useAuth();
   const axiosAllBlogs = useAxiosSecure();
+  const [blogLoading, setBlogLoading] = useState(true);
 
   const [blogs, setBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
@@ -25,10 +26,17 @@ const AllBlogs = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (loading || !user) return;
-      axiosAllBlogs
-        .get("/blogs")
-        .then((res) => setBlogs(res.data))
-        .catch((err) => console.log(err));
+
+      try {
+        setBlogLoading(true);
+
+        const res = await axiosAllBlogs.get("/blogs");
+        setBlogs(res.data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setBlogLoading(false);
+      }
     };
 
     fetchData();
@@ -189,6 +197,7 @@ const AllBlogs = () => {
             setBlogs={setBlogs}
             setSelectedBlog={setSelectedBlog}
             axiosAllBlogs={axiosAllBlogs}
+            loading={blogLoading} 
           />
         </div>
 
