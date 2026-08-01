@@ -52,7 +52,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-10">
       <div className="lg:ml-10 mx-2 pt-3">
         <Logo />
       </div>
