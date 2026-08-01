@@ -533,12 +533,12 @@ const UserManagement = () => {
               <select
                 name="role"
                 defaultValue={selectedUser?.role}
-                className="select w-full bg-white/10 border border-green-400/30 focus:border-green-400 text-white"
+                className="select w-full bg-green-950 border border-green-400/30 focus:border-green-400 text-white"
               >
-                <option value="user" className="text-black">
+                <option value="user" className="text-white">
                   User
                 </option>
-                <option value="admin" className="text-black">
+                <option value="admin" className="text-white">
                   Admin
                 </option>
               </select>
