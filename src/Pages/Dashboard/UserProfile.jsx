@@ -33,6 +33,19 @@ const UserProfile = () => {
   };
 
   const handleSave = async () => {
+    // 🔍 check if anything changed
+    const isChanged =
+      formData.displayName !== (user.displayName || "") ||
+      formData.photoURL !== (user.photoURL || "");
+
+    if (!isChanged) {
+      return Swal.fire({
+        icon: "info",
+        title: "No Changes",
+        text: "You didn't change anything ",
+      });
+    }
+
     const confirm = await Swal.fire({
       title: "Update Profile?",
       text: "Do you want to save changes?",
@@ -57,7 +70,7 @@ const UserProfile = () => {
       Swal.fire({
         icon: "success",
         title: "Updated!",
-        text: "Profile updated successfully 🚀",
+        text: "Profile updated successfully ",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -124,9 +137,9 @@ const UserProfile = () => {
             <button
               onClick={handleSave}
               disabled={loading}
-              className="mt-6 px-8 py-3 bg-gradient-to-r from-green-400 to-green-600 rounded-full font-semibold hover:scale-105 transition-all duration-200 disabled:opacity-50"
+              className="mt-6 px-8 py-3 bg-gradient-to-r from-green-400 to-green-600 rounded-full font-semibold hover:scale-105 transition-all duration-200 disabled:opacity-50 cursor-pointer"
             >
-              {loading ? "Updating..." : "💾 Save Changes"}
+              {loading ? "Updating..." : "Save Changes"}
             </button>
           </div>
         </div>

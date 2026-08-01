@@ -177,7 +177,7 @@ const Comments = ({
       shadow-md shadow-green-500/30
       hover:shadow-green-500/50
       hover:scale-105 active:scale-95
-      transition duration-300
+      transition duration-300 cursor-pointer
     "
                     >
                       Save
@@ -195,7 +195,7 @@ const Comments = ({
       text-gray-200
       hover:bg-white/20
       hover:scale-105 active:scale-95
-      transition duration-300
+      transition duration-300 cursor-pointer
     "
                     >
                       Cancel

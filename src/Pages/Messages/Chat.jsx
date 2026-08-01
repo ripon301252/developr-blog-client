@@ -3,6 +3,7 @@ import Messages from "./Messages";
 import useAxiosNormal from "../../Hooks/useAxiosNormal";
 import { io } from "socket.io-client";
 import Swal from "sweetalert2";
+import { MessageSquareText } from "lucide-react";
 
 const Chat = () => {
   const [users, setUsers] = useState([]);
@@ -46,13 +47,14 @@ const Chat = () => {
   console.log(users);
 
   return (
-    <div className="h-screen flex bg-white/5 text-white max-w-7xl mx-auto md:p-10 p-2 md:m-10 m-0 rounded-2xl">
+    <div className="h-screen flex bg-white/5 text-white max-w-7xl mx-auto md:p-20 p-2 md:m-24 m-0 rounded-2xl">
       {/* LEFT SIDEBAR */}
       <div
-        className={`${target ? "hidden md:flex" : "flex"} w-full md:w-1/3 border-r border-white/10 backdrop-blur-xl bg-white/5 flex flex-col rounded-l-2xl`}
+        className={`${target ? "hidden md:flex" : "flex"} w-full md:w-1/3 border-r border-white/10 backdrop-blur-xl bg-white/5 flex flex-col lg:rounded-l-2xl rounded-2xl`}
       >
-        <h2 className="text-xl font-semibold p-[21.8px] border-b border-white/10 rounded-tl-selector backdrop-blur-md sticky top-0 z-10">
-          💬 Chats: {users.length}
+        <h2 className="text-xl font-semibold p-[21.8px] border-b border-white/10 rounded-tl-selector backdrop-blur-md sticky top-0 z-10 flex items-center gap-2 ">
+          <MessageSquareText size={24} />
+           Chat List
         </h2>
 
         <div className="overflow-y-auto flex-1 hide-scrollbar">

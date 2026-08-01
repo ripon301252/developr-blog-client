@@ -2,6 +2,16 @@ import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useRole from "../../Hooks/useRole";
+import {
+  Eye,
+  PencilLine,
+  PenLine,
+  SaveCheck,
+  StepBack,
+  StepForward,
+  Trash2,
+  Users,
+} from "lucide-react";
 
 const UserManagement = () => {
   const { role } = useRole();
@@ -200,15 +210,11 @@ const UserManagement = () => {
     <div>
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 p-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-green-400/20 shadow-lg">
         {/* Left side */}
-        <div>
-          <h1 className="text-3xl font-bold text-green-300 tracking-wide">
-            👥 Users
-          </h1>
-          <p className="text-gray-400 text-sm mt-1">
-            Total Users:{" "}
-            <span className="text-green-400 font-semibold">{users.length}</span>
-          </p>
-        </div>
+
+        <h1 className="text-3xl font-bold text-green-300 tracking-wide flex items-center gap-2">
+          <Users size={32} />
+          Users
+        </h1>
 
         {/* Right side (Search) */}
         <div className="relative w-full md:w-72">
@@ -252,7 +258,7 @@ const UserManagement = () => {
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
-                      <div className="h-12 w-12 rounded-xl ring ring-green-400/30 ring-offset-2 ring-offset-black">
+                      <div className="h-12 w-12 rounded-xl ring ring-green-400/30 ring-offset-2 ring-offset-green-900/20">
                         <img src={user.photoURL} alt="User" />
                       </div>
                     </div>
@@ -291,27 +297,30 @@ const UserManagement = () => {
                 {/* Actions */}
                 <td>
                   <div className="flex gap-2">
+                    {/* View */}
                     <button
                       onClick={() => handleView(user._id)}
-                      className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs transition"
+                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white transition cursor-pointer hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]"
                     >
-                      View
+                      <Eye size={16} />
                     </button>
 
                     {role === "admin" && (
                       <>
+                        {/* Edit */}
                         <button
                           onClick={() => handleEdit(user)}
-                          className="px-3 py-1 rounded-full bg-green-500/20 hover:bg-green-500/40 text-green-300 text-xs transition"
+                          className="p-2 rounded-full bg-green-500/20 hover:bg-green-500/40 backdrop-blur-md border border-green-400/30 text-green-300 transition cursor-pointer hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]"
                         >
-                          Edit
+                          <PencilLine size={16} />
                         </button>
 
+                        {/* Delete */}
                         <button
                           onClick={() => handleDelete(user._id)}
-                          className="px-3 py-1 rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-300 text-xs transition"
+                          className="p-2 rounded-full bg-red-500/20 hover:bg-red-500/40 backdrop-blur-md border border-red-400/30 text-red-300 transition cursor-pointer hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]"
                         >
-                          Delete
+                          <Trash2 size={16} />
                         </button>
                       </>
                     )}
@@ -323,6 +332,7 @@ const UserManagement = () => {
         </table>
       </div>
 
+      {/* pageination */}
       <div className="flex flex-wrap justify-center items-center gap-2 mt-6">
         {/* 🔙 Prev */}
         <button
@@ -330,9 +340,9 @@ const UserManagement = () => {
           disabled={currentPage === 1}
           className="px-3 py-2 rounded-xl bg-white/10 text-green-300 
     hover:bg-green-400/20 backdrop-blur-md border border-green-400/30 
-    disabled:opacity-30 disabled:cursor-not-allowed"
+    disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
         >
-          ◀
+          <StepBack size={16} />
         </button>
 
         {(() => {
@@ -359,7 +369,7 @@ const UserManagement = () => {
                 key={page}
                 onClick={() => setCurrentPage(page)}
                 className={`
-            px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300
+            px-3 py-1 rounded-xl text-sm font-medium transition-all duration-300
             backdrop-blur-md border border-green-400/30
             
             ${
@@ -383,9 +393,9 @@ const UserManagement = () => {
           disabled={currentPage === totalPages}
           className="px-3 py-2 rounded-xl bg-white/10 text-green-300 
     hover:bg-green-400/20 backdrop-blur-md border border-green-400/30 
-    disabled:opacity-30 disabled:cursor-not-allowed"
+    disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
         >
-          ▶
+          <StepForward size={16} />
         </button>
       </div>
 
@@ -461,8 +471,9 @@ const UserManagement = () => {
       <dialog id="edit_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box bg-gradient-to-br from-green-900/40 to-black/40 backdrop-blur-xl border border-green-400/30 shadow-2xl rounded-2xl text-white">
           {/* Header */}
-          <h3 className="text-2xl font-bold text-center text-green-300 mb-4">
-            ✏️ Update User
+          <h3 className="text-2xl font-bold text-center text-green-300 mb-4 flex justify-center items-center gap-2">
+            <PenLine />
+            Update User
           </h3>
 
           {/* Form */}
@@ -526,7 +537,8 @@ const UserManagement = () => {
                 type="submit"
                 className="btn flex-1 bg-green-500/70 hover:bg-green-600 border-none text-white rounded-full"
               >
-                🚀 Update
+                <SaveCheck />
+                Update
               </button>
 
               <button

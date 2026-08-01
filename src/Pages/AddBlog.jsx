@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { useAuth } from "../Hooks/useAuth";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import logoImg from "../assets/logo.png";
-import { PenLine, Send  } from "lucide-react";
+import { PenLine, Send } from "lucide-react";
 
 const AddBlog = () => {
   const { user, loading, setLoading } = useAuth();
@@ -68,7 +68,7 @@ const AddBlog = () => {
       if (res.status === 200 || res.status === 201) {
         Swal.fire({
           icon: "success",
-          title: "🎉 সফল!",
+          title: "Published!",
           text: "Blog Published Successfully!",
           timer: 2000,
           showConfirmButton: false,
@@ -223,8 +223,8 @@ const AddBlog = () => {
                 <span className="animate-pulse">Publishing...</span>
               ) : (
                 <>
-                <Send />
-                Publish Blog
+                  <Send />
+                  Publish Blog
                 </>
               )}
             </button>

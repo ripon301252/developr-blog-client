@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { useAuth } from "../../Hooks/useAuth";
 import useAxiosNormal from "../../Hooks/useAxiosNormal";
+import { Send } from "lucide-react";
 
 const Messages = ({ target, socket }) => {
   const axiosMessage = useAxiosNormal();
@@ -58,7 +59,7 @@ const Messages = ({ target, socket }) => {
       text,
     };
 
-    console.log("SENDING 👉", messageData);
+    console.log("SENDING ", messageData);
 
     try {
       // ✅ 1. DATABASE E SAVE
@@ -98,7 +99,7 @@ const Messages = ({ target, socket }) => {
   if (!target) {
     return (
       <div className="h-full flex items-center justify-center text-gray-400">
-        Select a user to start chatting 💬
+        Select a user to start chatting 
       </div>
     );
   }
@@ -139,7 +140,7 @@ const Messages = ({ target, socket }) => {
       </div>
 
       {/* INPUT (🔥 FIXED FOOTER STYLE) */}
-      <div className="sticky bottom-0 p-2 md:p-3 border-t border-white/10 bg-black/30 backdrop-blur-xl flex items-center gap-2 rounded-br-2xl">
+      <div className="sticky bottom-0 p-2 md:p-3 border-t border-white/10 bg-black/30 backdrop-blur-xl flex items-center gap-2 lg:rounded-br-2xl rounded-b-2xl">
         {/* INPUT */}
         <input
           value={text}
@@ -154,7 +155,10 @@ const Messages = ({ target, socket }) => {
           onClick={handleSend}
           className="shrink-0 px-3 md:px-5 py-2 md:py-2.5 bg-gradient-to-r from-green-500 to-emerald-500 hover:scale-105 transition rounded-full shadow-lg text-sm md:text-base"
         >
-          <span className="hidden sm:inline">🚀 Send</span>
+          <span className="hidden sm:inline gap-2 lg:flex items-center">
+            <Send size={20} />
+             Send
+            </span>
           <span className="sm:hidden">➤</span>
         </button>
       </div>

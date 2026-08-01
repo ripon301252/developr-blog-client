@@ -1,17 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router";
 import {
-  AudioLines,
-  BadgeDollarSign,
-  ChartArea,
-  Cuboid,
   HandHelping,
   LogIn,
   LogOut,
-  Motorbike,
   User,
   Users,
-  UserStar,
+  UserPlus,
+  FilePlus,
+  Settings,
 } from "lucide-react";
 import useRole from "../../Hooks/useRole";
 import { useAuth } from "../../Hooks/useAuth";
@@ -20,6 +17,7 @@ import { MdOutlineHome } from "react-icons/md";
 import { HiOutlineCash } from "react-icons/hi";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { FaHands } from "react-icons/fa6";
 
 const Dashboard = () => {
   const axiosDashboard = useAxiosSecure();
@@ -39,27 +37,23 @@ const Dashboard = () => {
 
   const [loading, setLoading] = useState(true);
 
- 
+  useEffect(() => {
+    if (!user) return; // 🔥 MUST
 
-useEffect(() => {
-  if (!user) return; // 🔥 MUST
+    const fetchStats = async () => {
+      try {
+        setLoading(true);
+        const res = await axiosDashboard.get("/dashboard-stats");
+        setStats(res.data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchStats = async () => {
-    try {
-      setLoading(true);
-      const res = await axiosDashboard.get("/dashboard-stats");
-      setStats(res.data);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchStats();
-}, [user]); // 🔥 dependency add
-
-  
+    fetchStats();
+  }, [user]); // 🔥 dependency add
 
   const isDashboardHome = location.pathname === "/dashboard";
 
@@ -116,10 +110,6 @@ useEffect(() => {
             </label>
 
             <div className="ml-auto flex items-center gap-3 px-4">
-              {/* <span className="text-xs px-2 py-1 bg-green-100 text-green-600 rounded-full">
-                {role}
-              </span> */}
-
               {/* Avatar */}
               <div
                 className="relative lg:inline-flex"
@@ -152,7 +142,7 @@ useEffect(() => {
                           {user?.email}
                         </p>
 
-                        <span className="mt-2 text-xs bg-green-100 text-green-600 px-2 py-1 rounded">
+                        <span className="mt-2 text-xs bg-green-100 text-green-600 px-2 py-1 rounded-lg inline-block my-3">
                           {role}
                         </span>
 
@@ -191,16 +181,16 @@ useEffect(() => {
 
                 {/* LEFT */}
                 <div className="relative z-10 flex-1">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  <h2 className="text-3xl md:text-4xl font-bold text-white flex items-center gap-2">
                     Welcome back,{" "}
-                    <span className="text-green-400">
+                    <span className="text-green-400 ">
                       {user?.displayName || "User"}
                     </span>{" "}
-                    👋
+                    <FaHands className="text-yellow-600" />
                   </h2>
 
                   <p className="text-gray-400 mt-2">
-                    Here's what's happening in your dashboard 🚀
+                    Here's what's happening in your dashboard
                   </p>
 
                   {/* SUMMARY */}
@@ -259,7 +249,7 @@ useEffect(() => {
                     },
                     {
                       title: "System Status",
-                      value: "All systems running 🚀",
+                      value: "All systems running ",
                     },
                     {
                       title: "Your Role",
@@ -287,21 +277,23 @@ useEffect(() => {
               {/* Bottom */}
               <div className="flex md:flex-row flex-col items-center gap-3 pt-2 mt-5 ">
                 {[
-                  { label: "Add User", icon: "👤" },
-                  { label: "Create Blog", icon: "✍️" },
-                  { label: "Manage Users", icon: "⚙️" },
-                ].map((item, i) => (
-                  <button
-                    key={i}
-                    className="flex items-center w-full justify-between px-4 py-3 rounded-2xl bg-white/5 border border-white/10
-      text-green-300 hover:bg-green-500/10 hover:text-white transition-all duration-300 "
-                  >
-                    <span>
-                      {item.icon} {item.label}
-                      {/* <span> →</span> */}
-                    </span>
-                  </button>
-                ))}
+                  { label: "Add User", icon: UserPlus },
+                  { label: "Create Blog", icon: FilePlus },
+                  { label: "Manage Users", icon: Settings },
+                ].map((item, i) => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={i}
+                      className="flex items-center w-full justify-between px-4 py-3 rounded-2xl bg-white/5 border border-white/10
+      text-green-300 hover:bg-green-500/10 hover:text-white transition-all duration-300"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Icon size={18} /> {item.label}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
