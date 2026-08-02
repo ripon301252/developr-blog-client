@@ -4,10 +4,12 @@ import { useAuth } from "../Hooks/useAuth";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import logoImg from "../assets/logo.png";
 import { PenLine, Send } from "lucide-react";
+import useRole from "../Hooks/useRole";
 
 const AddBlog = () => {
   const { user, loading, setLoading } = useAuth();
   const axiosAddBlog = useAxiosSecure();
+  const { role } = useRole();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -33,6 +35,10 @@ const AddBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (role !== "blogger" && role !== "admin") {
+      return <p>You are not allowed</p>;
+    }
+
     if (!user) {
       return Swal.fire({
         icon: "error",
@@ -47,6 +53,26 @@ const AddBlog = () => {
 
     if (!formData.content.trim()) {
       return Swal.fire("Error", "Content is required!", "error");
+    }
+
+    // 🔥 Simple word count
+    const words = formData.content.trim().split(" ");
+    const wordCount = words.filter((word) => word !== "").length;
+
+    if (wordCount < 200) {
+      return Swal.fire(
+        "Too Short",
+        "Blog must be at least 200 words!",
+        "warning",
+      );
+    }
+
+    if (wordCount > 600) {
+      return Swal.fire(
+        "Limit Exceeded",
+        "Blog must be within 600 words!",
+        "warning",
+      );
     }
 
     const blogData = {
@@ -90,6 +116,14 @@ const AddBlog = () => {
       setLoading(false);
     }
   };
+
+  const words = formData.content.trim().split(" ").filter(Boolean);
+  const wordCount = words.length;
+
+  const maxWords = 600;
+  const minWords = 200;
+
+  const remaining = maxWords - wordCount;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 text-white">
@@ -204,10 +238,28 @@ const AddBlog = () => {
       "
             />
 
+            <p
+              className={`text-sm mt-1 ml-1 ${
+                wordCount > maxWords
+                  ? "text-red-400"
+                  : wordCount < minWords
+                    ? "text-yellow-400/80"
+                    : "text-green-400/80"
+              }`}
+            >
+              Words: {wordCount} / {minWords}–{maxWords} | Remaining:{" "}
+              {remaining >= 0 ? remaining : 0}
+              <span className="ml-2">
+                {wordCount < minWords && "(Too short)"}
+                {wordCount > maxWords && "(Too long)"}
+                {wordCount >= minWords && wordCount <= maxWords && "(Perfect)"}
+              </span>
+            </p>
+
             {/* Button */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || wordCount < minWords || wordCount > maxWords}
               className="
         w-full py-3 rounded-xl font-semibold
         bg-gradient-to-r from-green-400/40 to-green-600/40
@@ -236,7 +288,7 @@ const AddBlog = () => {
           <img
             src={logoImg}
             alt="logo"
-            className="md:h-[500px] rounded-2xl object-center"
+            className="md:h-[550px] rounded-2xl object-center"
           />
         </div>
       </div>

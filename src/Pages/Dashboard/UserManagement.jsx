@@ -216,9 +216,9 @@ const UserManagement = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 p-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-green-400/20 shadow-lg">
         {/* Left side */}
 
-        <h1 className="text-3xl font-bold text-green-300 tracking-wide flex items-center gap-2">
+        <h1 className="text-3xl font-bold text-green-300 tracking-wide flex items-center gap-1">
           <Users size={32} />
-          Users
+          <span>Users <span className="text-xs">({totalUsers})</span> </span> 
         </h1>
 
         {/* Right side (Search) */}

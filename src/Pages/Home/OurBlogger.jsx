@@ -39,7 +39,7 @@ const OurBlogger = () => {
           <PenLine size={28} className="text-green-400" />
         </span>
 
-        <span className="tracking-wide">Our Bloggers</span>
+        <span className="tracking-wide">Our Bloggers <span className=" text-xs">({blogs.length})</span> </span>
       </h2>
 
       {blogs.length === 0 ? (

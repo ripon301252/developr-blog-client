@@ -33,7 +33,7 @@ const BlogList = ({
         </span>
 
         <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-green-600 bg-clip-text text-transparent tracking-wide">
-          Blog List
+          Blog List {<span className=" text-xs">({blogs.length})</span>}
         </span>
       </h2>
 
@@ -62,13 +62,19 @@ const BlogList = ({
             </p>
 
             <div className="flex justify-between items-center mt-3">
-              {/* LIKE BUTTON */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleLike(blog._id);
-                }}
-                className="
+              <div>
+               <img src= {blog.image} alt="" className="w-10 h-10 rounded-full border-3 border-green-500/50" />
+              </div>
+
+              <div className="flex items-center gap-2">
+                {/* LIKE BUTTON */}
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLike(blog._id);
+                  }}
+                  className="
       flex items-center gap-1.5
       px-3 py-1 rounded-full
       bg-white/5 backdrop-blur-md
@@ -77,14 +83,14 @@ const BlogList = ({
       hover:shadow-[0_0_10px_rgba(248,113,113,0.4)]
       transition duration-300 cursor-pointer
     "
-              >
-                <ThumbsUp size={16} />
-                <span>{blog.likes?.length || 0}</span>
-              </button>
+                >
+                  <ThumbsUp size={14} />
+                  <span>{blog.likes?.length || 0}</span>
+                </button>
 
-              {/* READ STATUS */}
-              <span
-                className={`
+                {/* READ STATUS */}
+                <span
+                  className={`
       flex items-center gap-1.5
       px-3 py-1 rounded-full
       text-xs font-semibold
@@ -97,17 +103,18 @@ const BlogList = ({
           : "bg-red-500/10 border-red-400/30 text-red-400"
       }
     `}
-              >
-                {isViewed ? (
-                  <>
-                    ✔ <span>Read</span>
-                  </>
-                ) : (
-                  <>
-                    ○ <span>Unread</span>
-                  </>
-                )}
-              </span>
+                >
+                  {isViewed ? (
+                    <>
+                      ✔ <span>Read</span>
+                    </>
+                  ) : (
+                    <>
+                      ○ <span>Unread</span>
+                    </>
+                  )}
+                </span>
+              </div>
             </div>
           </div>
         );

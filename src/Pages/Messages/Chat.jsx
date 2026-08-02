@@ -54,14 +54,14 @@ const Chat = () => {
   console.log(users);
 
   return (
-    <div className="h-screen flex bg-white/5 text-white max-w-7xl mx-auto md:p-20 p-2 md:m-24 m-0 rounded-2xl">
+    <div className="h-screen flex bg-white/5 text-white max-w-7xl mx-auto md:p-20 p-2 md:m-24 m-0 lg:rounded-2xl">
       {/* LEFT SIDEBAR */}
       <div
-        className={`${target ? "hidden md:flex" : "flex"} w-full md:w-1/3 border-r border-white/10 backdrop-blur-xl bg-white/5 flex flex-col lg:rounded-l-2xl rounded-2xl`}
+        className={`${target ? "hidden md:flex" : "flex"} w-full md:w-1/3 border-r border-white/10 backdrop-blur-xl bg-white/5 flex flex-col lg:rounded-l-2xl`}
       >
-        <h2 className="text-xl font-semibold p-[21.8px] border-b border-white/10 rounded-tl-selector backdrop-blur-md sticky top-0 z-10 flex items-center gap-2 ">
+        <h2 className="text-xl text-green-500 font-semibold p-[21.8px] border-b border-white/10 lg:rounded-tl-selector backdrop-blur-md sticky top-0 z-10 flex items-center gap-2 ">
           <MessageSquareText size={24} />
-          Chat List
+          Chat List {<span className="text-xs mt-1">({users.length})</span>}
         </h2>
 
         <div className="overflow-y-auto flex-1 hide-scrollbar">
@@ -114,7 +114,7 @@ const Chat = () => {
         ) : (
           <>
             {/* HEADER */}
-            <div className="p-4 border-b border-white/10 bg-white/5 backdrop-blur-xl flex items-center gap-3 sticky top-0 z-10 rounded-tr-2xl">
+            <div className="p-4 border-b border-white/10 bg-white/5 backdrop-blur-xl flex items-center gap-3 sticky top-0 z-10 lg:rounded-tr-2xl">
               <button
                 onClick={() => {
                   setTarget(null);

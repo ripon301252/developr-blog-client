@@ -37,7 +37,7 @@ const OurUser = () => {
           <Users size={28} className="text-green-400" />
         </span>
 
-        <span className="tracking-wide">Our Users</span>
+        <span className="tracking-wide">Our Users <span className=" text-xs">({users.length})</span> </span>
       </h2>
 
       {/* Marquee */}

@@ -105,7 +105,7 @@ const Messages = ({ target, socket }) => {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] md:h-full relative rounded-tr-2xl">
+    <div className="flex flex-col h-[calc(100vh-80px)] md:h-full relative lg:rounded-tr-2xl">
       {/* MESSAGES */}
       <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-white/5 hide-scrollbar">
         {messages
@@ -140,7 +140,7 @@ const Messages = ({ target, socket }) => {
       </div>
 
       {/* INPUT (🔥 FIXED FOOTER STYLE) */}
-      <div className="sticky bottom-0 p-2 md:p-3 border-t border-white/10 bg-black/30 backdrop-blur-xl flex items-center gap-2 lg:rounded-br-2xl rounded-b-2xl">
+      <div className="sticky bottom-0 p-2 md:p-3 border-t border-white/10 bg-black/30 backdrop-blur-xl flex items-center gap-2 lg:rounded-br-2xl">
         {/* INPUT */}
         <input
           value={text}
