@@ -90,7 +90,7 @@ const Comments = ({
       Swal.fire({
         icon: "success",
         title: "Updated!",
-        text: "Comment updated successfully ✨",
+        text: "Comment updated successfully",
         timer: 1500,
         showConfirmButton: false,
       });

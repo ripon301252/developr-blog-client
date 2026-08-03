@@ -129,7 +129,7 @@ const AddBlog = () => {
     <div className="max-w-5xl mx-auto px-4 py-10 text-white">
       <h2
         className="
-    text-2xl md:text-3xl lg:text-4xl
+    text-xl md:text-3xl lg:text-4xl
     font-bold mb-8
     flex justify-center items-center gap-3
 
@@ -147,7 +147,7 @@ const AddBlog = () => {
   "
       >
         <span className="p-2 rounded-lg bg-green-500/10 backdrop-blur-md border border-green-400/20">
-          <PenLine size={28} className="text-green-400" />
+          <PenLine size={26} className="text-green-400" />
         </span>
 
         <span className="tracking-wide">Create New Blog</span>

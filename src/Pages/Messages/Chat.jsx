@@ -108,8 +108,8 @@ const Chat = () => {
   `}
       >
         {!target ? (
-          <div className="flex items-center justify-center h-full text-gray-400 text-lg">
-            👉 Select a user to start chatting
+          <div className="flex items-center justify-center h-full text-gray-400 text-2xl">
+             Select a user to start chatting
           </div>
         ) : (
           <>

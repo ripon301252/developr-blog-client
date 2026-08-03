@@ -7,7 +7,13 @@ import { HiMenu, HiX } from "react-icons/hi";
 // import useRole from "../Hooks/useRole";
 import { MdOutlineHome } from "react-icons/md";
 import { TbBrandBlogger } from "react-icons/tb";
-import { LogIn, LogOut, LayoutDashboard, User, MessageCircleMore } from "lucide-react";
+import {
+  LogIn,
+  LogOut,
+  LayoutDashboard,
+  User,
+  MessageCircleMore,
+} from "lucide-react";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
@@ -50,7 +56,7 @@ const Navbar = () => {
     ...(user
       ? [{ name: "All Blogs", icon: TbBrandBlogger, path: "/all-blogs" }]
       : []),
-    { name: "Chats", icon: MessageCircleMore , path: "/chats" },
+    { name: "Chats", icon: MessageCircleMore, path: "/chats" },
   ];
 
   return (
@@ -206,14 +212,6 @@ const Navbar = () => {
             ); // ✅ semicolon এখানে থাকবে
           })}
 
-          <Link
-            to="/dashboard"
-            className="flex items-center gap-2 px-2 py-2 text-sm text-white hover:bg-white/10 transition"
-          >
-            <LayoutDashboard size={18} />
-            Dashboard
-          </Link>
-
           {!user ? (
             <Link
               to="/login"
@@ -223,13 +221,23 @@ const Navbar = () => {
               Login
             </Link>
           ) : (
-            <button
-              onClick={handleSignOut}
-              className="w-full flex justify-center items-center gap-1  px-2 py-2 font-semibold text-red-500 bg-red-100 rounded-lg"
-            >
-              <LogOut size={18} />
-              Logout
-            </button>
+            <>
+              <Link
+                to="/dashboard"
+                className="flex items-center gap-2 px-2 py-2 text-sm text-white hover:bg-white/10 transition"
+              >
+                <LayoutDashboard size={18} />
+                Dashboard
+              </Link>
+
+              <button
+                onClick={handleSignOut}
+                className="w-full flex justify-center items-center gap-1  px-2 py-2 font-semibold text-red-700 bg-red-300 rounded-lg"
+              >
+                <LogOut size={18} />
+                Logout
+              </button>
+            </>
           )}
         </div>
       </div>

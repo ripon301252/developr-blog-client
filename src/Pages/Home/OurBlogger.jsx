@@ -36,7 +36,7 @@ const OurBlogger = () => {
   "
       >
         <span className="p-2 rounded-lg bg-green-500/10 backdrop-blur-md border border-green-400/20">
-          <PenLine size={28} className="text-green-400" />
+          <PenLine size={26} className="text-green-400" />
         </span>
 
         <span className="tracking-wide">Our Bloggers <span className=" text-xs">({blogs.length})</span> </span>
