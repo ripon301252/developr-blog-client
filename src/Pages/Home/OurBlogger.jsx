@@ -9,8 +9,11 @@ const OurBlogger = () => {
 
   useEffect(() => {
     axiosOurBlogger
-      .get("/public/blogs")
-      .then((res) => setBlogs(res.data))
+      .get("/blogs")
+      .then((res) => {
+        // setBlogs(res.data.blogs || [])
+        setBlogs(Array.isArray(res.data.blogs) ? res.data.blogs : []);
+      })
       .catch((err) => console.log(err));
   }, [axiosOurBlogger]);
 
@@ -39,15 +42,17 @@ const OurBlogger = () => {
           <PenLine size={26} className="text-green-400" />
         </span>
 
-        <span className="tracking-wide">Our Bloggers <span className=" text-xs">({blogs.length})</span> </span>
+        <span className="tracking-wide">
+          Our Bloggers <span className=" text-xs">({blogs.length})</span>{" "}
+        </span>
       </h2>
 
       {blogs.length === 0 ? (
-        <p className="text-center text-gray-400">
+        <div className="text-center text-gray-400">
           <div className="flex justify-center items-center gap-2">
             <span className="loading loading-bars loading-xl"></span>
           </div>
-        </p>
+        </div>
       ) : (
         <Marquee
           direction="right"

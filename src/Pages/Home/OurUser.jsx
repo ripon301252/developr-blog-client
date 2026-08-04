@@ -42,11 +42,11 @@ const OurUser = () => {
 
       {/* Marquee */}
       {users.length === 0 ? (
-        <p className="text-center text-gray-400">
+        <div className="text-center text-gray-400">
           <div className="flex justify-center items-center gap-2">
             <span className="loading loading-bars loading-xl"></span>
           </div>
-        </p>
+        </div>
       ) : (
         <Marquee speed={25} pauseOnHover gradient={false} autoFill>
           {users.map((user) => (

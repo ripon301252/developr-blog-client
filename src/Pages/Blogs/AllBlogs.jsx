@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useAuth } from "../../Hooks/useAuth";
 import BlogList from "./BlogList";
-import BlogDetails from "./BlogDetails";
+// import BlogDetails from "./BlogDetails";
 import Comments from "./Comments";
 import Swal from "sweetalert2";
 import { Info } from "lucide-react";
@@ -13,7 +13,10 @@ const AllBlogs = () => {
   const [blogLoading, setBlogLoading] = useState(true);
 
   const [blogs, setBlogs] = useState([]);
-  const [selectedBlog, setSelectedBlog] = useState(null);
+  const [selectedBlog, setSelectedBlog] = useState(() => {
+  const saved = localStorage.getItem("selectedBlog");
+  return saved ? JSON.parse(saved) : null;
+});
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
 
@@ -31,7 +34,8 @@ const AllBlogs = () => {
         setBlogLoading(true);
 
         const res = await axiosAllBlogs.get("/blogs");
-        setBlogs(res.data);
+        setBlogs(res.data.blogs || [])
+        // setBlogs(Array.isArray(res.data.blogs) ? res.data.blogs : []);
       } catch (err) {
         console.log(err);
       } finally {
@@ -113,6 +117,7 @@ const AllBlogs = () => {
         text: commentText,
         userName: user.displayName,
         userEmail: user.email,
+        userImage: user.photoURL
       });
 
       setCommentText("");
@@ -132,12 +137,7 @@ const AllBlogs = () => {
     }
   };
 
-  // handle mark blog
   const handleMarkedBlog = (blog) => {
-    setSelectedBlog(blog);
-
-    localStorage.setItem("selectedBlogId", blog._id); // ✅ ADD THIS
-
     let updated;
 
     if (viewedBlogs.includes(blog._id)) {
@@ -145,26 +145,68 @@ const AllBlogs = () => {
     } else {
       updated = [...viewedBlogs, blog._id];
     }
+
     setViewedBlogs(updated);
     localStorage.setItem("viewedBlogs", JSON.stringify(updated));
   };
 
+  const handleDeleteBlog = async (id) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This blog will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await axiosAllBlogs.delete(`/blogs/${id}`);
+
+      // ✅ remove from UI
+      setBlogs((prev) => prev.filter((b) => b._id !== id));
+
+      // ✅ reset selected blog
+      if (selectedBlog?._id === id) {
+        setSelectedBlog(null);
+      }
+
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: "Blog removed successfully",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire("Error!", "Delete failed", error);
+    }
+  };
+
   return (
     <div className="min-h-screen max-w-7xl mx-auto py-10 text-white">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
         {/* 🔹 LEFT: BLOG LIST */}
-        <div className="space-y-4 col-span-1 bg-white/10 p-5 rounded-xl">
+        <div className="space-y-4 col-span-1 lg:col-span-4 bg-white/10 p-5 rounded-xl">
           <BlogList
             blogs={blogs}
             handleLike={handleLike}
             selectedBlog={selectedBlog}
             viewedBlogs={viewedBlogs}
             handleMarkedBlog={handleMarkedBlog}
+            user={user}
+            handleDeleteBlog={handleDeleteBlog}
+            setBlogs={setBlogs}
+            axiosAllBlogs={axiosAllBlogs}
+            setSelectedBlog={setSelectedBlog} // 🔥 ADD THIS
           />
         </div>
 
         {/* 🔹 MIDDLE: BLOG DETAILS */}
-        <div className="bg-white/10 p-4 rounded-xl md:col-span-2">
+        {/* <div className="bg-white/10 p-4 rounded-xl md:col-span-2">
           <h2
             className="
     text-xl md:text-2xl lg:text-3xl
@@ -199,10 +241,10 @@ const AllBlogs = () => {
             axiosAllBlogs={axiosAllBlogs}
             loading={blogLoading} 
           />
-        </div>
+        </div> */}
 
         {/* 🔹 RIGHT: COMMENTS */}
-        <div className="bg-white/10 p-4 rounded-xl col-span-1 md:max-h-[799.9px] max-h-[319.9px] overflow-y-auto">
+        <div className="bg-white/10 p-4 rounded-xl col-span-1 lg:col-span-2 md:max-h-[799.9px] max-h-[319.9px] overflow-y-auto">
           <Comments
             selectedBlog={selectedBlog}
             comments={comments}

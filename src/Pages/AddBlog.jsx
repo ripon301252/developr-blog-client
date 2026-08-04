@@ -35,10 +35,6 @@ const AddBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (role !== "blogger" && role !== "admin") {
-      return <p>You are not allowed</p>;
-    }
-
     if (!user) {
       return Swal.fire({
         icon: "error",
@@ -59,15 +55,15 @@ const AddBlog = () => {
     const words = formData.content.trim().split(" ");
     const wordCount = words.filter((word) => word !== "").length;
 
-    if (wordCount < 200) {
+    if (wordCount < 150) {
       return Swal.fire(
         "Too Short",
-        "Blog must be at least 200 words!",
+        "Blog must be at least 150 words!",
         "warning",
       );
     }
 
-    if (wordCount > 600) {
+    if (wordCount > 300) {
       return Swal.fire(
         "Limit Exceeded",
         "Blog must be within 600 words!",
@@ -120,11 +116,13 @@ const AddBlog = () => {
   const words = formData.content.trim().split(" ").filter(Boolean);
   const wordCount = words.length;
 
-  const maxWords = 600;
-  const minWords = 200;
+  const maxWords = 300;
+  const minWords = 150;
 
   const remaining = maxWords - wordCount;
 
+
+  
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 text-white">
       <h2

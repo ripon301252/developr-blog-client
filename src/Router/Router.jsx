@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Pages/Dashboard/dashboard";
 import UserProfile from "../Pages/Dashboard/UserProfile";
 import UserManagement from "../Pages/Dashboard/UserManagement";
+import BloggerManagement from "../Pages/Dashboard/BloggerManagement";
 import Chat from "../Pages/Messages/Chat";
 
 export const router = createBrowserRouter([
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
       {
         path: "user-management",
         element: <UserManagement />,
+      },
+      {
+        path: "blogger-management",
+        element: <BloggerManagement />,
       },
     ],
   },

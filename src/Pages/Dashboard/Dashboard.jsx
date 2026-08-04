@@ -356,6 +356,16 @@ const Dashboard = () => {
                   User Management
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/dashboard/blogger-management"
+                  onClick={closeDrawer}
+                  className={({ isActive }) => activeLinks(isActive)}
+                >
+                  <Users size={18} />
+                  Blogger Management
+                </NavLink>
+              </li>
 
               <button
                 onClick={handleLogout}
@@ -366,11 +376,11 @@ const Dashboard = () => {
               </button>
 
               {/* SETTINGS */}
-              <li className="mt-6">
+              {/* <li className="mt-6">
                 <button className="flex gap-2 items-center hover:text-green-300">
                   ⚙️ Settings
                 </button>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
