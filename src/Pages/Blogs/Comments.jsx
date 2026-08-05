@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { format } from "timeago.js";
 import {
   MessageCircleMore,
   MessageSquareMore,
@@ -277,8 +278,7 @@ const Comments = ({
                         {c.userName}
                       </p>
                       <p className="text-xs text-gray-400">
-                        {/* optional: time */}
-                        just now
+                        {format(c.createdAt)}
                       </p>
                     </div>
                   </div>

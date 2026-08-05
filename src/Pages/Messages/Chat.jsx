@@ -1,141 +1,256 @@
-import { useEffect, useState } from "react";
-import Messages from "./Messages";
-import useAxiosNormal from "../../Hooks/useAxiosNormal";
+import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import Swal from "sweetalert2";
-import { MessageSquareText } from "lucide-react";
+import { Send, MessageSquareText } from "lucide-react";
+import { format } from "timeago.js";
+import useAxiosNormal from "../../Hooks/useAxiosNormal";
+import { useAuth } from "../../Hooks/useAuth";
 
 const Chat = () => {
+  const { user } = useAuth();
+  const axiosApi = useAxiosNormal();
+
   const [users, setUsers] = useState([]);
   const [target, setTarget] = useState(null);
-  const axiosChat = useAxiosNormal();
-
+  const [messages, setMessages] = useState([]);
+  const [text, setText] = useState("");
   const [socket, setSocket] = useState(null);
-
   const [loadingUsers, setLoadingUsers] = useState(true);
 
-  useEffect(() => {
-    const savedTarget = localStorage.getItem("chatTarget");
+  const bottomRef = useRef(null);
 
-    if (savedTarget) {
-      setTarget(JSON.parse(savedTarget));
-    }
-  }, []);
-
+  // 🔌 socket connect
   useEffect(() => {
     const newSocket = io(import.meta.env.VITE_API_URL, {
       transports: ["websocket"],
-      reconnection: true,
     });
 
     setSocket(newSocket);
-
-    return () => {
-      newSocket.close(); // 🔥 use close instead of disconnect
-    };
+    return () => newSocket.close();
   }, []);
 
+  // 👤 join
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoadingUsers(true);
+    if (socket && user?.email) {
+      socket.emit("join", user.email);
+    }
+  }, [socket, user]);
 
-        const res = await axiosChat.get("/users");
-        setUsers(res.data.users);
+  // 📥 receive
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("receiveMessage", (data) => {
+      setMessages((prev) => [...prev, data]);
+    });
+
+    return () => socket.off("receiveMessage");
+  }, [socket]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handler = (data) => {
+      setMessages((prev) => {
+        const exists = prev.some(
+          (m) =>
+            m.id === data.id ||
+            (m.text === data.text &&
+              m.senderEmail === data.senderEmail &&
+              m.createdAt === data.createdAt),
+        );
+
+        if (exists) return prev;
+        return [...prev, data];
+      });
+    };
+
+    socket.on("receiveMessage", handler);
+
+    return () => socket.off("receiveMessage", handler);
+  }, [socket]);
+
+  // 🔽 scroll
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("chatTarget");
+    if (saved) {
+      setTarget(JSON.parse(saved));
+    }
+  }, []);
+
+  // 👥 load users
+  useEffect(() => {
+    const load = async () => {
+      setLoadingUsers(true);
+      const res = await axiosApi.get("/users");
+      setUsers(res.data.users);
+      setLoadingUsers(false);
+    };
+    load();
+  }, []);
+
+  // 📩 load messages
+  useEffect(() => {
+    const load = async () => {
+      if (!user?.email || !target?.email) return;
+
+      try {
+        const res = await axiosApi.get("/messages", {
+          params: {
+            email: user.email,
+            chatWith: target.email,
+          },
+        });
+
+        setMessages(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
-        console.log("ERROR:", err);
-      } finally {
-        setLoadingUsers(false);
+        console.log(err);
       }
     };
 
-    fetchUsers();
-  }, [axiosChat]);
-  console.log(users);
+    load();
+  }, [user?.email, target?.email]); // 🔥 IMPORTANT CHANGE
+
+  // ✉️ send
+  const handleSend = async () => {
+    if (!text.trim() || !target) return;
+
+    const msg = {
+      id: Date.now(),
+      senderEmail: user.email,
+      receiverEmail: target.email,
+      text,
+      createdAt: new Date(),
+    };
+
+    await axiosApi.post("/messages", msg);
+    socket.emit("sendMessage", msg);
+
+    setMessages((prev) => [...prev, msg]);
+    setText("");
+  };
 
   return (
-    <div className="h-screen flex bg-white/5 text-white max-w-7xl mx-auto md:p-20 p-2 md:m-24 m-0 lg:rounded-2xl">
-      {/* LEFT SIDEBAR */}
+    <div className="h-screen max-w-7xl mx-auto flex bg-white/10 text-white md:p-8 md:m-10 rounded-2xl">
+      {/* LEFT */}
       <div
-        className={`${target ? "hidden md:flex" : "flex"} w-full md:w-1/3 border-r border-white/10 backdrop-blur-xl bg-white/5 flex flex-col lg:rounded-l-2xl`}
+        className={`w-full md:w-1/3 ${target ? "hidden md:flex" : "flex"} flex-col bg-white/5 backdrop-blur-xl border-r border-white/10 md:rounded-l-2xl`}
       >
-        <h2 className="text-xl text-green-500 font-semibold p-[21.8px] border-b border-white/10 lg:rounded-tl-selector backdrop-blur-md sticky top-0 z-10 flex items-center gap-2 ">
-          <MessageSquareText size={24} />
-          Chat List {<span className="text-xs mt-1">({users.length})</span>}
+        <h2 className="px-4 py-[22px] text-lg font-semibold border-b border-white/10 flex items-center gap-2 text-green-400">
+          <MessageSquareText />
+          Chats ({users.length})
         </h2>
 
-        <div className="overflow-y-auto flex-1 hide-scrollbar">
+        <div className="overflow-y-auto flex-1">
           {loadingUsers ? (
-            <div className="flex justify-center items-center h-full">
-              <span className="loading loading-bars loading-lg"></span>
-            </div>
-          ) : users.length === 0 ? (
-            <p className="text-center text-gray-400 mt-5">No users found</p>
+            <div className="flex justify-center mt-10 loading loading-dots"></div>
           ) : (
-            users.map((user) => (
+            users.map((u) => (
               <div
-                key={user._id}
+                key={u._id}
                 onClick={() => {
-                  setTarget(user);
-                  localStorage.setItem("chatTarget", JSON.stringify(user));
+                  setTarget(u);
+                  localStorage.setItem("chatTarget", JSON.stringify(u));
                 }}
-                className={`flex items-center gap-3 p-4 cursor-pointer transition-all duration-300
-              hover:bg-green-500/10 hover:scale-[1.02]
-              ${target?._id === user._id ? "bg-green-500/20" : ""}
-            `}
+                className={`flex items-center gap-3 p-4 cursor-pointer transition hover:bg-green-500/10 ${
+                  target?._id === u._id && "bg-green-500/20"
+                }`}
               >
-                <img
-                  src={user.photoURL}
-                  className="w-12 h-12 rounded-full border-2 border-green-400/40"
-                />
-
-                <div className="flex-1">
-                  <p className="font-medium">{user.name}</p>
-                  <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                <img src={u.photoURL} className="w-10 h-10 rounded-full" />
+                <div>
+                  <p>{u.name}</p>
+                  <p className="text-xs text-gray-400">{u.email}</p>
                 </div>
-
-                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
               </div>
             ))
           )}
         </div>
       </div>
-      {/* RIGHT SIDE */}
+
+      {/* RIGHT */}
       <div
-        className={`
-    ${!target ? "hidden md:flex" : "flex"}
-    w-full md:w-2/3 flex-col
-  `}
+        className={`w-full md:w-2/3 flex-col ${!target && "hidden md:flex"} flex `}
       >
         {!target ? (
-          <div className="flex items-center justify-center h-full text-gray-400 text-2xl">
-             Select a user to start chatting
+          <div className="flex h-full items-center justify-center text-gray-400 text-xl">
+            Select a user to chat
           </div>
         ) : (
           <>
             {/* HEADER */}
-            <div className="p-4 border-b border-white/10 bg-white/5 backdrop-blur-xl flex items-center gap-3 sticky top-0 z-10 lg:rounded-tr-2xl">
-              <button
-                onClick={() => {
-                  setTarget(null);
-                  localStorage.removeItem("chatTarget");
-                }}
-                className="md:hidden text-xl mr-2"
-              >
+            <div className="p-4 border-b border-white/10 flex items-center gap-3 bg-white/5 backdrop-blur-xl md:rounded-tr-2xl">
+              <button onClick={() => setTarget(null)} className="md:hidden">
                 ←
               </button>
-
-              <img
-                src={target.photoURL}
-                className="w-10 h-10 rounded-full border border-green-400"
-              />
+              <img src={target.photoURL} className="w-10 h-10 rounded-full" />
               <div>
-                <h3 className="font-semibold">{target.name}</h3>
-                <p className="text-xs text-green-400">● Online</p>
+                <h3>{target.name}</h3>
+                <p className="text-xs text-green-400">Online</p>
               </div>
             </div>
 
-            <Messages target={target} socket={socket} />
+            {/* MESSAGES */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white/5">
+              {messages.map((msg) => {
+                const mine = msg.senderEmail === user.email;
+
+                return (
+                  <div
+                    key={msg._id || msg.id}
+                    className={`flex ${mine ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`px-3 py-2 rounded-2xl text-base max-w-xs shadow-md
+                        ${
+                          mine
+                            ? "bg-green-500/20 text-white rounded-br-none"
+                            : "bg-white/10 text-white rounded-bl-none"
+                        }`}
+                    >
+                      {/* TEXT */}
+                      <span className="whitespace-pre-wrap break-words">
+                        {msg.text}
+                      </span>
+
+                      {/* TIME + FORMAT (same line) */}
+                      <span className="ml-2 inline-flex items-center gap-1 text-[10px] text-gray-300">
+                        <span>
+                          {new Date(msg.createdAt).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>
+
+                        <span className="text-gray-400">
+                          • {format(msg.createdAt)}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+              <div ref={bottomRef}></div>
+            </div>
+
+            {/* INPUT */}
+            <div className="p-3 border-t border-white/10 flex gap-2 bg-white/5 backdrop-blur-xl md:rounded-br-2xl">
+              <input
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                className="flex-1 p-3 rounded-full bg-white/10 outline-none"
+                placeholder="Type message..."
+              />
+              <button
+                onClick={handleSend}
+                className="px-4 py-2 bg-green-500 rounded-full hover:scale-105 transition"
+              >
+                <Send size={18} />
+              </button>
+            </div>
           </>
         )}
       </div>
