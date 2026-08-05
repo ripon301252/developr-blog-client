@@ -15,7 +15,7 @@ const BloggerManagement = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalBloggers, setTotalBloggers] = useState(0);
-  const limit = 3;
+  const limit = 5;
   const totalPages = Math.ceil(totalBloggers / limit);
 
   // get search & pagination

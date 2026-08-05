@@ -134,19 +134,49 @@ const Chat = () => {
   };
 
   return (
-    <div className="h-screen max-w-7xl mx-auto flex bg-white/10 text-white md:p-8 md:m-10 rounded-2xl">
+    <div className="h-screen max-w-7xl mx-auto flex bg-white/10 text-white md:p-8 md:m-10 rounded-2xl ">
       {/* LEFT */}
       <div
-        className={`w-full md:w-1/3 ${target ? "hidden md:flex" : "flex"} flex-col bg-white/5 backdrop-blur-xl border-r border-white/10 md:rounded-l-2xl`}
+        className={`w-full md:w-1/3 ${target ? "hidden md:flex" : "flex"} flex-col bg-white/5 backdrop-blur-xl border-r border-white/10 md:rounded-l-2xl `}
       >
-        <h2 className="px-4 py-[22px] text-lg font-semibold border-b border-white/10 flex items-center gap-2 text-green-400">
+        {/* <h2 className="px-4 py-[22px] text-lg font-semibold border-b border-white/10 flex items-center gap-2 text-green-400">
           <MessageSquareText />
           Chats ({users.length})
-        </h2>
+        </h2> */}
 
-        <div className="overflow-y-auto flex-1">
+        <h2
+        className="
+    text-2xl md:text-3xl lg:text-4xl
+    font-bold mb-8 py-[14px]
+    flex justify-center items-center gap-3
+
+    text-green-300
+    bg-gradient-to-r from-green-400 via-emerald-400 to-green-600
+    bg-clip-text text-transparent
+
+    backdrop-blur-md
+    px-6 
+
+    border-b 
+    shadow-[0_0_25px_rgba(34,197,94,0.25)]
+
+    w-full mx-auto
+  "
+      >
+        <span className="p-2 rounded-lg bg-green-500/10 backdrop-blur-md border border-green-400/20">
+          <MessageSquareText size={26} className="text-green-400" />
+        </span>
+
+        <span className="tracking-wide">
+          Chats <span className=" text-xs">({users.length})</span>{" "}
+        </span>
+      </h2>
+
+        <div className="overflow-y-auto flex-1 hide-scrollbar">
           {loadingUsers ? (
-            <div className="flex justify-center mt-10 loading loading-dots"></div>
+            <div className="flex justify-center items-center mt-10 ">
+              <span className="loading loading-dots loading-xl"></span>
+            </div>
           ) : (
             users.map((u) => (
               <div
@@ -172,7 +202,7 @@ const Chat = () => {
 
       {/* RIGHT */}
       <div
-        className={`w-full md:w-2/3 flex-col ${!target && "hidden md:flex"} flex `}
+        className={`w-full md:w-2/3 flex-col ${!target && "hidden md:flex"} flex`}
       >
         {!target ? (
           <div className="flex h-full items-center justify-center text-gray-400 text-xl">
@@ -193,7 +223,7 @@ const Chat = () => {
             </div>
 
             {/* MESSAGES */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white/5">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white/5 hide-scrollbar">
               {messages.map((msg) => {
                 const mine = msg.senderEmail === user.email;
 

@@ -202,46 +202,11 @@ const AllBlogs = () => {
             setBlogs={setBlogs}
             axiosAllBlogs={axiosAllBlogs}
             setSelectedBlog={setSelectedBlog} // 🔥 ADD THIS
+            blogLoading={blogLoading}
           />
         </div>
 
-        {/* 🔹 MIDDLE: BLOG DETAILS */}
-        {/* <div className="bg-white/10 p-4 rounded-xl md:col-span-2">
-          <h2
-            className="
-    text-xl md:text-2xl lg:text-3xl
-    font-bold text-center mb-6
-
-    flex justify-center items-center gap-3
-
-    bg-gradient-to-r from-green-400 via-emerald-400 to-green-600
-    bg-clip-text text-transparent
-
-    backdrop-blur-md
-    px-5 py-3 rounded-xl
-
-    border border-green-400/20
-    shadow-[0_0_25px_rgba(34,197,94,0.2)]
-
-    w-fit mx-auto
-  "
-          >
-            <span className="p-2 rounded-lg bg-green-500/10 border border-green-400/20 backdrop-blur-md">
-              <Info size={24} className="text-green-400" />
-            </span>
-
-            <span className="tracking-wide">Blog Details</span>
-          </h2>
-
-          <BlogDetails
-            selectedBlog={selectedBlog}
-            handleLike={handleLike}
-            setBlogs={setBlogs}
-            setSelectedBlog={setSelectedBlog}
-            axiosAllBlogs={axiosAllBlogs}
-            loading={blogLoading} 
-          />
-        </div> */}
+        
 
         {/* 🔹 RIGHT: COMMENTS */}
         <div className="bg-white/10 p-4 rounded-xl col-span-1 lg:col-span-2 md:max-h-[799.9px] max-h-[319.9px] overflow-y-auto">
