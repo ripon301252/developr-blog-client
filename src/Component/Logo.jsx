@@ -14,9 +14,9 @@ const Logo = () => {
       <h3
         className="
           text-xl md:text-2xl font-bold
-          bg-gradient-to-r from-green-400 via-emerald-300 to-green-600
+          bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-600
           bg-clip-text text-transparent
-          drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]
+          drop-shadow-[0_0_12px_rgba(20,184,166,0.35)]
         "
       >
         Developer Blog

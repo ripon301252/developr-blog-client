@@ -60,7 +60,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-gradient-to-l from-[#021d10] via-[#094222] to-[#021d10] backdrop-blur-lg border-b border-green-500/20 shadow-lg sticky top-0 z-50">
+    <nav className="bg-gradient-to-l from-cyan-950 via-cyan-800 to-cyan-950 backdrop-blur-lg border-b border-cyan-500/20 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <div className="-ml-2">
@@ -79,8 +79,8 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   `flex items-center gap-1 relative font-medium transition ${
                     isActive
-                      ? "text-green-500 "
-                      : "text-white hover:text-green-500"
+                      ? "text-cyan-500 "
+                      : "text-white hover:text-cyan-500"
                   }`
                 }
               >
@@ -102,16 +102,16 @@ const Navbar = () => {
                   src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
                   alt="avatar"
                   className="w-10 h-10 rounded-full cursor-pointer 
-                    border-2 border-green-400/60 
-                    shadow-md shadow-green-300/30
-                    hover:scale-110 hover:shadow-green-400/40 
+                    border-2 border-teal-400/60 
+                    shadow-md shadow-teal-300/30
+                    hover:scale-110 hover:shadow-teal-400/40 
                     transition duration-300"
                 />
 
                 {/* Dropdown */}
                 <div
                   className="
-                    absolute right-0 top-full w-56 pt-4 mt-[14.9px] bg-gradient-to-l from-[#021d10] via-[#094222] to-[#021d10] rounded-b-2xl
+                    absolute right-0 top-full w-56 pt-4 mt-[18.9px] bg-gradient-to-l from-cyan-950 via-cyan-800 to-cyan-950 rounded-b-2xl
                     opacity-0 scale-95 translate-y-2 invisible
                     group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:visible
                     transition-all duration-300
@@ -164,7 +164,7 @@ const Navbar = () => {
                 to="/login"
                 className="
         px-4 py-1.5 btn 
-        bg-gradient-to-r from-green-500/20 to-emerald-500/50
+        bg-gradient-to-r from-cyan-500/20 to-cyan-500/50
         text-white rounded-lg 
       "
               >
@@ -189,7 +189,7 @@ const Navbar = () => {
           menuOpen ? "max-h-96" : "max-h-0"
         }`}
       >
-        <div className="space-y-3 bg-green-400/20 shadow rounded-b-lg">
+        <div className="space-y-3 bg-teal-400/20 shadow rounded-b-lg">
           {navLinks.map((link) => {
             const Icon = link.icon;
 
@@ -201,7 +201,7 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   `flex items-center gap-2 py-2 px-2 rounded ${
                     isActive
-                      ? "bg-green-100 text-green-500 font-semibold"
+                      ? "bg-green-100 text-teal-500 font-semibold"
                       : "text-white hover:bg-green-100"
                   }`
                 }

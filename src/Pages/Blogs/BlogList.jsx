@@ -82,10 +82,10 @@ const BlogList = ({
       {/* HEADER */}
       <div
         className="
-bg-green-500/10 backdrop-blur-md
+bg-cyan-500/10 backdrop-blur-md
 px-6 py-3 rounded-xl
-border border-green-400/20
-shadow-[0_0_20px_rgba(34,197,94,0.2)]
+border border-cyan-400/20
+shadow-[0_0_12px_rgba(20,184,166,0.35)]
 w-full mx-auto sticky top-0 z-20
 "
       >
@@ -93,11 +93,11 @@ w-full mx-auto sticky top-0 z-20
           className="
   text-2xl md:text-3xl lg:text-4xl
   font-bold flex justify-center items-center gap-3 py-1
-  bg-gradient-to-r from-green-400 via-emerald-400 to-green-600
+  bg-gradient-to-r from-cyan-400 via-cyan-400 to-cyan-600
   bg-clip-text text-transparent
   "
         >
-          <NotebookTabs size={26} className="text-green-400" />
+          <NotebookTabs size={26} className="text-cyan-400" />
           Blogs <span className="text-xs mt-4">({blogs.length})</span>
         </h2>
       </div>
@@ -132,7 +132,7 @@ w-full mx-auto sticky top-0 z-20
 
               ${
                 selectedBlog?._id === blog._id
-                  ? "border-green-400 bg-green-500/10"
+                  ? "border-cyan-400 bg-cyan-500/10"
                   : "border-white/10"
               }
             `}
@@ -143,7 +143,7 @@ w-full mx-auto sticky top-0 z-20
                 <img
                   src={blog.image}
                   alt=""
-                  className="w-12 h-12 rounded-full object-cover border border-green-400/20"
+                  className="w-12 h-12 rounded-full object-cover border border-cyan-400/20"
                 />
 
                 {/* TEXT AREA */}
@@ -157,10 +157,10 @@ w-full mx-auto sticky top-0 z-20
                     {selectedBlog?._id === blog._id && (
                       <span
                         className="
-            text-xs text-green-400
-            bg-green-500/10
+            text-xs text-cyan-400
+            bg-cyan-500/10
             px-3 py-1 rounded-full
-            border border-green-400/20
+            border border-cyan-400/20
             whitespace-nowrap
           "
                       >
@@ -187,7 +187,7 @@ w-full mx-auto sticky top-0 z-20
                           e.stopPropagation();
                           toggleExpand(blog._id);
                         }}
-                        className="text-green-400 cursor-pointer ml-1 text-xs hover:underline"
+                        className="text-cyan-400 cursor-pointer ml-1 text-xs hover:underline"
                       >
                         {" "}
                         See Less
@@ -203,7 +203,7 @@ w-full mx-auto sticky top-0 z-20
                           e.stopPropagation();
                           toggleExpand(blog._id);
                         }}
-                        className="text-green-400 cursor-pointer ml-1 text-xs hover:underline"
+                        className="text-cyan-400 cursor-pointer ml-1 text-xs hover:underline"
                       >
                         ... See More
                       </span>
@@ -225,7 +225,7 @@ w-full mx-auto sticky top-0 z-20
                     className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm transition cursor-pointer ${
                       isLiked
                         ? "bg-blue-500/20 text-blue-500"
-                        : "bg-gray-500/50 text-gray-300 hover:bg-gray-500/20"
+                        : "bg-gray-500/50 text-gray-300 hover:bg-blue-500/20"
                     }`}
                   >
                     <ThumbsUp
@@ -244,7 +244,7 @@ w-full mx-auto sticky top-0 z-20
                     className={`text-sm px-3 py-1 rounded-full cursor-pointer ${
                       viewedBlogs.includes(blog._id)
                         ? "bg-red-500/10 text-red-400"
-                        : "bg-green-500/10 text-green-400"
+                        : "bg-cyan-500/10 text-cyan-400"
                     }`}
                   >
                     {viewedBlogs.includes(blog._id) ? "Unread" : "Read"}
@@ -305,7 +305,7 @@ w-full mx-auto sticky top-0 z-20
 
       ${
         isOwner
-          ? "bg-green-500/10 border-green-400/30 text-green-400 hover:bg-green-500/20 hover:shadow-[0_0_12px_rgba(34,197,94,0.5)] hover:scale-110 active:scale-95 cursor-pointer"
+          ? "bg-cyan-500/10 border-cyan-400/30 text-cyan-400 hover:bg-cyan-500/20 hover:shadow-[0_0_12px_rgba(34,197,94,0.5)] hover:scale-110 active:scale-95 cursor-pointer"
           : "bg-gray-500/10 border-gray-400/20 text-gray-400 cursor-not-allowed"
       }
     `}
@@ -328,8 +328,8 @@ w-full mx-auto sticky top-0 z-20
 
       {/* EDIT MODAL */}
       <dialog id="edit_modal" className="modal">
-        <div className="modal-box bg-white/10 backdrop-blur-lg border border-green-400/30 shadow-2xl rounded-2xl w-11/12 max-w-lg">
-          <h3 className="font-bold text-xl text-green-400 mb-4 flex justify-center items-center gap-2">
+        <div className="modal-box bg-white/10 backdrop-blur-lg border border-cyan-400/30 shadow-2xl rounded-2xl w-11/12 max-w-lg">
+          <h3 className="font-bold text-xl text-cyan-400 mb-4 flex justify-center items-center gap-2">
             <PenLine size={28} />
             Edit Blog
           </h3>
@@ -341,7 +341,7 @@ w-full mx-auto sticky top-0 z-20
               setEditData({ ...editData, title: e.target.value })
             }
             placeholder="Enter blog title..."
-            className="w-full mb-3 p-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-green-400/30 focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="w-full mb-3 p-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-cyan-400/30 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           />
 
           {/* Content */}
@@ -352,7 +352,7 @@ w-full mx-auto sticky top-0 z-20
             }
             placeholder="Write your blog..."
             rows={5}
-            className="w-full p-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-green-400/30 focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="w-full p-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-cyan-400/30 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           />
 
           {/* Buttons */}
@@ -360,7 +360,7 @@ w-full mx-auto sticky top-0 z-20
             <button
               onClick={handleUpdate}
               disabled={updating}
-              className="px-5 py-2 rounded-xl bg-green-500 hover:bg-green-600 transition text-white font-semibold disabled:opacity-50 cursor-pointer"
+              className="px-5 py-2 rounded-xl bg-cyan-500/50 hover:bg-cyan-600/50 transition text-white font-semibold disabled:opacity-50 cursor-pointer"
             >
               {updating ? "Saving..." : "Save"}
             </button>

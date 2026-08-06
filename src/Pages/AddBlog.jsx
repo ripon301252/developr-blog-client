@@ -4,12 +4,12 @@ import { useAuth } from "../Hooks/useAuth";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import logoImg from "../assets/logo.png";
 import { PenLine, Send } from "lucide-react";
-import useRole from "../Hooks/useRole";
+
 
 const AddBlog = () => {
   const { user, loading, setLoading } = useAuth();
   const axiosAddBlog = useAxiosSecure();
-  const { role } = useRole();
+  
 
   const [formData, setFormData] = useState({
     title: "",
@@ -131,21 +131,21 @@ const AddBlog = () => {
     font-bold mb-8
     flex justify-center items-center gap-3
 
-    text-green-300
-    bg-gradient-to-r from-green-400 via-emerald-400 to-green-600
+    text-cyan-300
+    bg-gradient-to-r from-cyan-400 via-cyan-400 to-cyan-600
     bg-clip-text text-transparent
 
     backdrop-blur-md
     px-6 py-3 rounded-xl
 
-    border border-green-400/30
-    shadow-[0_0_25px_rgba(34,197,94,0.25)]
+    border border-cyan-400/30
+    shadow-[0_0_12px_rgba(20,184,166,0.35)]
 
     w-fit mx-auto
   "
       >
-        <span className="p-2 rounded-lg bg-green-500/10 backdrop-blur-md border border-green-400/20">
-          <PenLine size={26} className="text-green-400" />
+        <span className="p-2 rounded-lg bg-cyan-500/10 backdrop-blur-md border border-cyan-400/20">
+          <PenLine size={26} className="text-cyan-400" />
         </span>
 
         <span className="tracking-wide">Create New Blog</span>
@@ -155,12 +155,12 @@ const AddBlog = () => {
         {/* LEFT - FORM */}
         <div
           className="
-    bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-green-700/10
+    bg-gradient-to-br from-cyan-500/10 via-cyan-500/10 to-cyan-700/10
     backdrop-blur-xl
     p-6 md:p-8
     rounded-2xl
-    shadow-[0_0_40px_rgba(34,197,94,0.15)]
-    border border-green-400/20
+    shadow-[0_0_12px_rgba(20,184,166,0.35)]
+    border border-cyan-400/20
     flex-1
   "
         >
@@ -169,10 +169,10 @@ const AddBlog = () => {
             <div className="relative">
               <img
                 src={user?.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
-                className="w-12 h-12 md:w-14 md:h-14 rounded-xl border-2 border-green-400 object-cover"
+                className="w-12 h-12 md:w-14 md:h-14 rounded-xl border-2 border-cyan-400 object-cover"
                 alt="user"
               />
-              <span className="absolute inset-0 rounded-xl bg-green-400/20 blur-md"></span>
+              <span className="absolute inset-0 rounded-xl bg-cyan-400/20 blur-md"></span>
             </div>
 
             <div>
@@ -197,9 +197,9 @@ const AddBlog = () => {
               className="
         w-full p-3 rounded-xl
         bg-white/5
-        border border-green-400/20
+        border border-cyan-400/20
         text-white placeholder-gray-400
-        focus:outline-none focus:border-green-400
+        focus:outline-none focus:border-cyan-400
         focus:shadow-[0_0_15px_rgba(34,197,94,0.3)]
         transition
       "
@@ -215,9 +215,9 @@ const AddBlog = () => {
               className="
         w-full p-3 rounded-xl
         bg-white/5
-        border border-green-400/20
+        border border-cyan-400/20
         text-white placeholder-gray-400
-        focus:outline-none focus:border-green-400
+        focus:outline-none focus:border-cyan-400
         focus:shadow-[0_0_15px_rgba(34,197,94,0.3)]
         transition
       "
@@ -242,7 +242,7 @@ const AddBlog = () => {
                   ? "text-red-400"
                   : wordCount < minWords
                     ? "text-yellow-400/80"
-                    : "text-green-400/80"
+                    : "text-cyan-400/80"
               }`}
             >
               Words: {wordCount} / {minWords}–{maxWords} | Remaining:{" "}
@@ -260,10 +260,10 @@ const AddBlog = () => {
               disabled={loading || wordCount < minWords || wordCount > maxWords}
               className="
         w-full py-3 rounded-xl font-semibold
-        bg-gradient-to-r from-green-400/40 to-green-600/40
+        bg-gradient-to-r from-cyan-400/40 to-cyan-600/40
         text-white cursor-pointer
         hover:scale-[1.02]
-        hover:shadow-[0_0_25px_rgba(34,197,94,0.4)]
+        hover:shadow-[0_0_12px_rgba(20,184,166,0.35)]
         transition-all duration-200
         flex justify-center items-center gap-2
         disabled:opacity-50 disabled:cursor-not-allowed

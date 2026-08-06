@@ -91,7 +91,7 @@ const UserProfile = () => {
       <div className="flex justify-center items-center px-4 mt-10">
         <div className="w-full max-w-4xl bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden">
           {/* Cover */}
-          <div className="h-32 bg-gradient-to-r from-green-400/30 to-green-600/30"></div>
+          <div className="h-32 bg-gradient-to-r from-cyan-400/30 to-cyan-600/30"></div>
 
           {/* Profile Info */}
           <div className="p-6 text-center ">
@@ -106,7 +106,7 @@ const UserProfile = () => {
             <div className="mt-12">
               <img
                 src={formData.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
-                className="w-32 h-32 mx-auto rounded-full border-4 border-green-500/50 shadow-lg"
+                className="w-32 h-32 mx-auto rounded-full border-4 border-cyan-500/50 shadow-lg"
               />
             </div>
 
@@ -123,7 +123,7 @@ const UserProfile = () => {
                 value={formData.displayName}
                 onChange={handleChange}
                 placeholder="Your Name"
-                className="p-3 rounded-lg bg-black/30 border border-white/20 focus:outline-none focus:border-green-400"
+                className="p-3 rounded-lg bg-black/30 border border-white/20 focus:outline-none focus:border-cyan-400"
               />
 
               <input
@@ -131,7 +131,7 @@ const UserProfile = () => {
                 value={formData.photoURL}
                 onChange={handleChange}
                 placeholder="Photo URL"
-                className="p-3 rounded-lg bg-black/30 border border-white/20 focus:outline-none focus:border-green-400"
+                className="p-3 rounded-lg bg-black/30 border border-white/20 focus:outline-none focus:border-cyan-400"
               />
             </div>
 
@@ -139,7 +139,7 @@ const UserProfile = () => {
             <button
               onClick={handleSave}
               disabled={loading}
-              className="mt-6 px-8 py-3 bg-gradient-to-r from-green-400 to-green-600 rounded-full font-semibold hover:scale-105 transition-all duration-200 disabled:opacity-50 cursor-pointer"
+              className="mt-6 px-8 py-3 bg-gradient-to-r from-cyan-400/50 to-cyan-600/50 rounded-full font-semibold hover:scale-105 transition-all duration-200 disabled:opacity-50 cursor-pointer"
             >
               {loading ? "Updating..." : "Save Changes"}
             </button>

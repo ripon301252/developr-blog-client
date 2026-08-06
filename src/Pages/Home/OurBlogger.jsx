@@ -25,21 +25,21 @@ const OurBlogger = () => {
     font-bold mb-8
     flex justify-center items-center gap-3
 
-    text-green-300
-    bg-gradient-to-r from-green-400 via-emerald-400 to-green-600
+    text-teal-300
+    bg-gradient-to-r from-teal-400 via-teal-400 to-teal-600
     bg-clip-text text-transparent
 
     backdrop-blur-md
     px-6 py-3 rounded-xl
 
-    border border-green-400/30
+    border border-teal-400/30
     shadow-[0_0_25px_rgba(34,197,94,0.25)]
 
     w-fit mx-auto
   "
       >
-        <span className="p-2 rounded-lg bg-green-500/10 backdrop-blur-md border border-green-400/20">
-          <PenLine size={26} className="text-green-400" />
+        <span className="p-2 rounded-lg bg-teal-500/10 backdrop-blur-md border border-teal-400/20">
+          <PenLine size={26} className="text-teal-400" />
         </span>
 
         <span className="tracking-wide">
@@ -67,7 +67,7 @@ const OurBlogger = () => {
               <div
                 className="
       absolute inset-0 rounded-2xl
-      bg-gradient-to-r from-green-400/10 via-emerald-500/5 to-green-600/10
+      bg-gradient-to-r from-teal-400/10 via-teal-500/5 to-teal-600/10
       blur-lg opacity-70
     "
               ></div>
@@ -84,7 +84,7 @@ const OurBlogger = () => {
 
       flex flex-col justify-center
 
-      shadow-[0_10px_30px_rgba(0,0,0,0.25)]
+      shadow-[0_0_12px_rgba(20,184,166,0.35)]
     "
               >
                 {/* Image */}
@@ -94,8 +94,8 @@ const OurBlogger = () => {
                     alt={blog.authorName}
                     className="
           w-20 h-20 rounded-full object-cover
-          border-2 border-green-400
-          shadow-[0_0_12px_rgba(34,197,94,0.35)]
+          border-2 border-cyan-400
+          shadow-[0_0_12px_rgba(20,184,166,0.35)]
         "
                   />
 
@@ -103,7 +103,7 @@ const OurBlogger = () => {
                   <span
                     className="
           absolute -top-1 -right-1
-          bg-green-400 text-black text-[10px]
+          bg-teal-500 text-black text-[10px]
           px-1 rounded-full font-bold
         "
                   >
@@ -120,7 +120,7 @@ const OurBlogger = () => {
                 <p className="text-gray-400 text-xs mt-1">Blogger</p>
 
                 {/* Line */}
-                <div className="mt-3 w-10 h-[2px] bg-gradient-to-r from-green-400 to-emerald-500 mx-auto opacity-60"></div>
+                <div className="mt-3 w-10 h-[2px] bg-gradient-to-r from-teal-400 to-teal-500 mx-auto opacity-60"></div>
               </div>
             </div>
           ))}

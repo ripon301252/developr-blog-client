@@ -23,18 +23,18 @@ const OurUser = () => {
       font-bold mb-10
       flex justify-center items-center gap-3
 
-      bg-gradient-to-r from-green-400 via-emerald-400 to-green-600
+      bg-gradient-to-r from-teal-400 via-teal-400 to-teal-600
       bg-clip-text text-transparent
 
       px-6 py-3 rounded-xl
       border border-green-400/20
-      shadow-[0_0_20px_rgba(34,197,94,0.2)]
+      shadow-[0_0_12px_rgba(20,184,166,0.35)]
 
       w-fit mx-auto
     "
       >
-        <span className="p-2 rounded-lg bg-green-500/10 border border-green-400/20">
-          <Users size={28} className="text-green-400" />
+        <span className="p-2 rounded-lg bg-teal-500/10 border border-teal-400/20">
+          <Users size={28} className="text-teal-400" />
         </span>
 
         <span className="tracking-wide">Our Users <span className=" text-xs">({users.length})</span> </span>
@@ -59,7 +59,7 @@ const OurUser = () => {
             rounded-2xl
             p-6 text-center
 
-            shadow-[0_10px_30px_rgba(0,0,0,0.3)]
+            shadow-[0_0_12px_rgba(20,184,166,0.35)]
           "
               >
                 {/* Image */}
@@ -69,7 +69,7 @@ const OurUser = () => {
                     alt={user.name}
                     className="
                 w-20 h-20 rounded-full object-cover
-                border-2 border-green-400
+                border-2 border-teal-400
                 shadow-[0_0_15px_rgba(34,197,94,0.3)]
               "
                   />
@@ -78,7 +78,7 @@ const OurUser = () => {
                   <span
                     className="
                 absolute bottom-1 right-1
-                w-3 h-3 bg-green-400
+                w-3 h-3 bg-teal-400
                 border-2 border-black
                 rounded-full
               "
@@ -91,7 +91,7 @@ const OurUser = () => {
                 </h2>
 
                 {/* Decorative Line */}
-                <div className="mt-3 w-10 h-[2px] bg-gradient-to-r from-green-400 to-emerald-500 mx-auto opacity-70"></div>
+                <div className="mt-3 w-10 h-[2px] bg-gradient-to-r from-teal-400 to-teal-500 mx-auto opacity-70"></div>
               </div>
             </div>
           ))}

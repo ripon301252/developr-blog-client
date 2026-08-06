@@ -61,14 +61,14 @@ const Login = () => {
           <img
             src={loginImg}
             alt=""
-            className="lg:h-[499.9px] object-cover mt-8 rounded-2xl drop-shadow-[0_0_25px_rgba(34,197,94,0.4)]"
+            className="lg:h-[499.9px] object-cover mt-8 rounded-2xl drop-shadow-[0_0_12px_rgba(20,184,166,0.35)]"
           />
         </div>
-        <div className="flex-1 bg-gradient-to-l from-[#021d10] to-[#062e17] lg:p-10 p-7 rounded-2xl shadow-xl mt-8 flex flex-col justify-center ">
+        <div className="flex-1 bg-gradient-to-l from-cyan-500/10 to-cyan-400/10 lg:p-10 p-7 rounded-2xl shadow-xl mt-8 flex flex-col justify-center ">
           <h1 className="text-3xl font-bold text-center mb-3 text-white">
             Welcome Back
           </h1>
-          <form onSubmit={handleSubmit} className="space-y-3 drop-shadow-[0_0_25px_rgba(34,197,94,0.4)]">
+          <form onSubmit={handleSubmit} className="space-y-3  drop-shadow-[0_0_12px_rgba(20,184,166,0.35)]">
             {/* Email */}
             <div>
               <label className="label-all">Email</label>
@@ -94,7 +94,7 @@ const Login = () => {
 
                 <button
                   onClick={handleTogglePasswordShow}
-                  className="absolute top-3 right-3 text-green-600/50 text-xl cursor-pointer"
+                  className="absolute top-3 right-3 text-cyan-600/50 text-xl cursor-pointer"
                 >
                   {showPassword ? <IoEyeOff /> : <IoEye />}
                 </button>
@@ -105,7 +105,7 @@ const Login = () => {
             <div>
               <Link
                 to={`/forgot`}
-                className="text-sm font-semibold text-green-600/50 cursor-pointer"
+                className="text-sm font-semibold text-cyan-600/80 cursor-pointer"
               >
                 Forgot password?
               </Link>
@@ -117,9 +117,9 @@ const Login = () => {
             </button>
             {/* Divider */}
             <div className="flex items-center justify-center gap-2 my-2">
-              <div className="h-px w-16 bg-green-500/20"></div>
-              <span className="text-green-500/20 text-sm">or</span>
-              <div className="h-px w-16 bg-green-500/20"></div>
+              <div className="h-px w-16 bg-cyan-500/20"></div>
+              <span className="text-cyan-500/20 text-sm">or</span>
+              <div className="h-px w-16 bg-cyan-500/20"></div>
             </div>
 
             <GoogleLogin />
@@ -139,7 +139,7 @@ const Login = () => {
             <Link
               state={location.state}
               to={`/register`}
-              className="text-green-600 font-semibold hover:underline ml-1"
+              className="text-cyan-600 font-semibold hover:underline ml-1"
             >
               Register
             </Link>

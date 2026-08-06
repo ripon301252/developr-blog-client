@@ -62,11 +62,11 @@ const ForgotPassword = () => {
           <img
             src={loginImg}
             alt=""
-            className="w-[420px]  rounded-2xl drop-shadow-[0_0_25px_rgba(34,197,94,0.4)]"
+            className="w-[420px]  rounded-2xl drop-shadow-[0_0_12px_rgba(20,184,166,0.35)]"
           />
         </div>
 
-        <div className="flex-1 bg-gradient-to-l from-[#021d10] to-[#062e17] px-6 py-18 space-y-4 rounded-xl ">
+        <div className="flex-1 bg-gradient-to-l  from-cyan-500/10 to-cyan-400/10 px-6 py-18 space-y-4 rounded-xl ">
           <h2 className="text-3xl font-bold text-white text-center">
             Reset Your Password
           </h2>
@@ -75,7 +75,7 @@ const ForgotPassword = () => {
             Enter your email and we’ll send a reset link
           </p>
 
-          <div className="drop-shadow-[0_0_25px_rgba(34,197,94,0.4)]">
+          <div className="drop-shadow-[0_0_12px_rgba(20,184,166,0.35)]">
             {/* Email */}
             <div>
               <label className="label">Email</label>
@@ -99,7 +99,7 @@ const ForgotPassword = () => {
             Remembered your password?{" "}
             <button
               onClick={() => navigate("/login")}
-              className="text-green-600 hover:underline font-semibold"
+              className="text-cyan-600 hover:underline font-semibold cursor-pointer"
             >
               Back to Login
             </button>

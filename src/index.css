@@ -2,7 +2,7 @@
 @plugin "daisyui";
 
 .google-btn {
-  @apply flex items-center justify-center gap-3 text-white px-5 py-2 rounded-lg w-full border font-semibold hover:bg-green-900 shadow-md bg-gradient-to-l from-[#062e17] to-[#021d10] border-[#062e17] cursor-pointer hover:scale-102 transition-transform;
+  @apply flex items-center justify-center gap-3 text-white px-5 py-2 rounded-lg w-full border font-semibold hover:bg-cyan-900 shadow-md bg-gradient-to-l border-[#062e2e] from-[#021d1d] to-[#062e2e] cursor-pointer hover:scale-102 transition-transform;
 }
 
 /* .input-class{
@@ -10,8 +10,8 @@
 } */
 
 .input-class {
-  @apply w-full bg-gradient-to-l from-[#062e17] to-[#021d10] text-white font-semibold border border-[#021d10] rounded-lg
-  focus:outline-none focus:ring-2 focus:ring-green-400/50 transition;
+  @apply w-full bg-gradient-to-l border-[#062e2e] from-[#021d1d] to-[#062e2e] text-white font-semibold border border-[#0a3f3f] rounded-lg
+  focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition;
 }
 
 /* .input-class {
@@ -20,10 +20,10 @@
 } */
 
 .file-choose {
-  @apply w-full border border-green-400/10 rounded-lg 
+  @apply w-full border border-cyan-400/10 rounded-lg 
          file:mr-4 file:py-2 file:px-4 
          file:rounded file:border-0 
-         file:bg-green-500/10 file:text-white
+         file:bg-cyan-500/10 file:text-white
          /* hover:file:bg-green-600; */;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .btn-custom{
-    @apply btn w-full text-white  mt-2 rounded-lg border font-semibold hover:bg-green-900 shadow-md bg-gradient-to-r border-[#062e17] from-[#021d10] to-[#062e17] cursor-pointer hover:scale-102 transition-transform
+    @apply btn w-full text-white  mt-2 rounded-lg border font-semibold hover:bg-cyan-900 shadow-md bg-gradient-to-r border-[#0a3f3f] from-[#021d1d] via-[#014f4f] to-[#043d3d] cursor-pointer hover:scale-102 transition-transform
 }
 
 /* .left-scroll {
@@ -52,8 +52,8 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px #021d10 inset !important;
-  box-shadow: 0 0 0px 1000px #021d10 inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px #022a2a inset !important;
+  box-shadow: 0 0 0px 1000px #022a2a inset !important;
   -webkit-text-fill-color: #ffffff !important;
   transition: background-color 5000s ease-in-out 0s;
 }
@@ -67,3 +67,5 @@ select:-webkit-autofill {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;               /* Chrome, Safari */
 }
+
+

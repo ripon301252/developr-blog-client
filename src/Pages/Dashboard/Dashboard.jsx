@@ -23,7 +23,6 @@ const Dashboard = () => {
   const axiosDashboard = useAxiosSecure();
   const [avatarOpen, setAvatarOpen] = useState(false);
   const avatarRef = useRef();
-  const [loggedOut, setLoggedOut] = useState(false);
 
   const { role } = useRole();
   const { user, signOutUser } = useAuth();
@@ -61,8 +60,8 @@ const Dashboard = () => {
   const activeLinks = (isActive) =>
     `px-3 py-2 text-sm font-medium flex items-center gap-1 transition-all duration-300 ${
       isActive
-        ? "text-gray-800 text-xs rounded-lg text-green-500"
-        : "text-xs hover:text-green-500 rounded-lg"
+        ? "text-cyan-500 text-sm rounded-lg font-semibold"
+        : "text-xs hover:text-cyan-500 rounded-lg"
     }`;
 
   const handleLogout = () => {
@@ -101,7 +100,7 @@ const Dashboard = () => {
         {/* MAIN CONTENT */}
         <div className="drawer-content">
           {/* TOP NAVBAR */}
-          <nav className="navbar bg-green-950 border-b border-green-900 sticky top-0 z-20 ">
+          <nav className="navbar bg-cyan-900/95 backdrop-blur-3xl border-b border-cyan-950/50 sticky top-0 z-20 ">
             {/* MOBILE MENU BUTTON */}
             <label
               htmlFor="my-drawer-4"
@@ -128,13 +127,13 @@ const Dashboard = () => {
                         user?.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"
                       }
                       alt="avatar"
-                      className="w-10 h-10 rounded-full border-2 border-green-400 cursor-pointer object-cover"
+                      className="w-10 h-10 rounded-full border-2 border-cyan-400 cursor-pointer object-cover"
                     />
 
                     {avatarOpen && (
                       <div
                         onClick={(e) => e.stopPropagation()} // inside click safe
-                        className="absolute lg:-right-2 -right-1 lg:mt-13 mt-3 w-52 bg-green-950 shadow-xl rounded-b-xl p-3 z-50"
+                        className="absolute lg:-right-2 -right-1 lg:mt-13 mt-3 w-52 bg-cyan-900/95 backdrop-blur-3xl shadow-xl rounded-b-xl p-3 z-50"
                       >
                         <p className="font-semibold text-white ">
                           {user?.displayName || "User"}
@@ -143,7 +142,7 @@ const Dashboard = () => {
                           {user?.email}
                         </p>
 
-                        <span className="mt-2 text-xs bg-green-100 text-green-600 px-2 py-1 rounded-lg inline-block my-3">
+                        <span className="mt-2 text-xs bg-green-100 text-cyan-600 px-2 py-1 rounded-lg inline-block my-3">
                           {role}
                         </span>
 
@@ -172,24 +171,24 @@ const Dashboard = () => {
           {/* HEADER CARD */}
           {isDashboardHome && (
             <div
-              className=" bg-white/10 border border-green-400/10
+              className=" bg-white/10 border border-cyan-400/10
     rounded-3xl p-6 md:p-10 shadow-[0_0_80px_rgba(34,197,94,0.15)] relative overflow-hidden m-5"
             >
               <div className="flex flex-col md:flex-row justify-between gap-8">
                 {/* 🔥 Glow Effects */}
-                <div className="absolute -top-20 -left-20 w-72 h-72 bg-green-500/20 blur-[120px] rounded-full"></div>
-                <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-emerald-400/20 blur-[120px] rounded-full"></div>
+                <div className="absolute -top-20 -left-20 w-72 h-72 bg-cyan-500/20 blur-[120px] rounded-full"></div>
+                <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-cyan-400/20 blur-[120px] rounded-full"></div>
 
                 {/* LEFT */}
                 <div className="relative z-10 flex-1">
                   <h2 className="text-xl md:text-3xl font-bold text-white flex items-center gap-2 flex-wrap">
                     <span>Welcome back,</span>
 
-                    <span className="text-green-400">
+                    <span className="text-cyan-400">
                       {user?.displayName || "User"}
                     </span>
 
-                    <FaHands className="text-yellow-500 translate-y-[2px]" />
+                    <FaHands className="text-cyan-500/50 translate-y-[2px]" />
                   </h2>
 
                   <p className="text-gray-400 mt-2">
@@ -197,7 +196,7 @@ const Dashboard = () => {
                   </p>
 
                   {/* SUMMARY */}
-                  <div className="mt-4 text-sm text-green-400">
+                  <div className="mt-4 text-sm text-cyan-400">
                     {stats.totalUsers} Users • {stats.totalBlogs} Blogs
                   </div>
 
@@ -217,16 +216,20 @@ const Dashboard = () => {
             border border-white/10
             rounded-2xl p-5
             transition-all duration-300
-            hover:-translate-y-1 hover:shadow-xl hover:shadow-green-500/20
+            hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/20
           "
                       >
                         <p className="text-xs text-gray-400">{item.label}</p>
-                        <h3 className="text-3xl font-bold text-green-400 mt-2">
-                          {loading ? <span className="loading loading-dots loading-xs"></span> : item.value}
+                        <h3 className="text-3xl font-bold text-cyan-400 mt-2">
+                          {loading ? (
+                            <span className="loading loading-dots loading-xs"></span>
+                          ) : (
+                            item.value
+                          )}
                         </h3>
 
                         {/* hover glow */}
-                        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 bg-green-500/5 transition"></div>
+                        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 bg-cyan-500/5 transition"></div>
                       </div>
                     ))}
                   </div>
@@ -235,9 +238,9 @@ const Dashboard = () => {
                   <div className="mt-6">
                     <p className="text-xs text-gray-400 mb-1">Growth</p>
                     <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                      <div className="bg-gradient-to-r from-green-400 to-emerald-500 h-2 w-[70%] rounded-full animate-pulse"></div>
+                      <div className="bg-gradient-to-r from-cyan-400 to-cyan-500 h-2 w-[70%] rounded-full animate-pulse"></div>
                     </div>
-                    <p className="text-xs text-green-400 mt-2">
+                    <p className="text-xs text-cyan-400 mt-2">
                       ↑ 70% this month
                     </p>
                   </div>
@@ -270,7 +273,7 @@ const Dashboard = () => {
         "
                     >
                       <p className="text-xs text-gray-400">{card.title}</p>
-                      <p className="text-sm md:text-base text-green-300 mt-1 font-medium">
+                      <p className="text-sm md:text-base text-cyan-300 mt-1 font-medium">
                         {card.value}
                       </p>
                     </div>
@@ -289,7 +292,7 @@ const Dashboard = () => {
                     <button
                       key={i}
                       className="flex items-center w-full justify-between px-4 py-3 rounded-2xl bg-white/5 border border-white/10
-      text-green-300 hover:bg-green-500/10 hover:text-white transition-all duration-300"
+      text-cyan-300 hover:bg-cyan-500/10 hover:text-white transition-all duration-300"
                     >
                       <span className="flex items-center gap-2">
                         <Icon size={18} /> {item.label}
@@ -312,11 +315,9 @@ const Dashboard = () => {
           {/* OVERLAY (click to close) */}
           <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
 
-          <div className="min-h-full w-64 bg-green-950 p-3">
+          <div className="min-h-full w-64 bg-cyan-950 p-3">
             {/* LOGO */}
             <div className=" mb-4 px-1">
-              {/* <img src={logoImg} className="w-8" />
-              <h2 className="font-bold text-lg">ParcelX</h2> */}
               <Logo></Logo>
             </div>
 
@@ -374,13 +375,6 @@ const Dashboard = () => {
                 <LogOut size={18} />
                 Logout
               </button>
-
-              {/* SETTINGS */}
-              {/* <li className="mt-6">
-                <button className="flex gap-2 items-center hover:text-green-300">
-                  ⚙️ Settings
-                </button>
-              </li> */}
             </ul>
           </div>
         </div>

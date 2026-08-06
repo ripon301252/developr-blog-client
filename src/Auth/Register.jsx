@@ -140,16 +140,16 @@ const Register = () => {
         <Logo />
       </div>
       <div className="flex lg:flex-row flex-col-reverse mx-2 justify-between items-center gap-5 lg:gap-8 lg:max-w-[1060.9px] lg:mx-auto lg:my-10 my-5">
-        <div className="flex-1 bg-gradient-to-l from-[#021d10] to-[#062e17] lg:p-10 p-5 rounded-2xl shadow-xl border border-green-600/10">
+        <div className="flex-1 bg-gradient-to-l from-cyan-500/10 to-cyan-400/10 lg:p-10 p-5 rounded-2xl shadow-xl border border-cyan-600/10">
           <h1 className="text-3xl font-bold text-center mb-3 text-white">
             Create Account
           </h1>
           <p className="text-center text-white mb-5">
             Join{" "}
-            <span className="font-semibold text-green-600">Developer Blog</span>{" "}
+            <span className="font-semibold text-cyan-600">Developer Blog</span>{" "}
             today!
           </p>
-          <form onSubmit={handleSignUp} className="space-y-3 drop-shadow-[0_0_25px_rgba(34,197,94,0.4)]">
+          <form onSubmit={handleSignUp} className="space-y-3 drop-shadow-[0_0_12px_rgba(20,184,166,0.35)]">
             {/* Name */}
             <div>
               <label className="lable-all">Name</label>
@@ -195,7 +195,7 @@ const Register = () => {
 
                 <button
                   onClick={handleTogglePasswordShow}
-                  className="absolute top-3 right-3 text-green-600/50 text-xl cursor-pointer"
+                  className="absolute top-3 right-3 text-cyan-600/50 text-xl cursor-pointer"
                 >
                   {showPassword ? <IoEyeOff /> : <IoEye />}
                 </button>
@@ -207,9 +207,9 @@ const Register = () => {
             </button>
             {/* Divider */}
             <div className="flex items-center justify-center gap-2 my-2">
-              <div className="h-px w-16 bg-green-500/20"></div>
-              <span className="text-green-500/20 text-sm">or</span>
-              <div className="h-px w-16 bg-green-500/20"></div>
+              <div className="h-px w-16 bg-cyan-500/20"></div>
+              <span className="text-cyan-500/20 text-sm">or</span>
+              <div className="h-px w-16 bg-cyan-500/20"></div>
             </div>
             {/* Google Login */}
             <GoogleLogin />
@@ -228,7 +228,7 @@ const Register = () => {
             <Link
               state={location.state}
               to={`/login`}
-              className="text-green-600 font-semibold hover:underline ml-1"
+              className="text-cyan-600 font-semibold hover:underline ml-1"
             >
               Login
             </Link>
