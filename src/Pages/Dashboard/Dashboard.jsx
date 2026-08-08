@@ -9,6 +9,8 @@ import {
   UserPlus,
   FilePlus,
   Settings,
+  MessagesSquare,
+  MessageCircleMore,
 } from "lucide-react";
 import useRole from "../../Hooks/useRole";
 import { useAuth } from "../../Hooks/useAuth";
@@ -18,6 +20,7 @@ import { HiOutlineCash } from "react-icons/hi";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { FaHands } from "react-icons/fa6";
+import { RiBloggerLine } from "react-icons/ri";
 
 const Dashboard = () => {
   const axiosDashboard = useAxiosSecure();
@@ -315,7 +318,7 @@ const Dashboard = () => {
           {/* OVERLAY (click to close) */}
           <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
 
-          <div className="min-h-full w-64 bg-cyan-950 p-3">
+          <div className="min-h-full w-64 bg-cyan-900/85 p-3">
             {/* LOGO */}
             <div className=" mb-4 px-1">
               <Logo></Logo>
@@ -363,10 +366,32 @@ const Dashboard = () => {
                   onClick={closeDrawer}
                   className={({ isActive }) => activeLinks(isActive)}
                 >
-                  <Users size={18} />
+                  <RiBloggerLine size={18} />
                   Blogger Management
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/dashboard/comments-management"
+                  onClick={closeDrawer}
+                  className={({ isActive }) => activeLinks(isActive)}
+                >
+                  <MessageCircleMore size={18} />
+                  Comments Management
+                </NavLink>
+              </li>
+              {role === "admin" && (
+                <li>
+                  <NavLink
+                    to="/dashboard/messages-management"
+                    onClick={closeDrawer}
+                    className={({ isActive }) => activeLinks(isActive)}
+                  >
+                    <MessagesSquare size={18} />
+                    Messages Management
+                  </NavLink>
+                </li>
+              )}
 
               <button
                 onClick={handleLogout}

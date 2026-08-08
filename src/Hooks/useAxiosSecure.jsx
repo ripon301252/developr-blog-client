@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 
 const axiosSecure = axios.create({
-  baseURL: "https://developr-blog-server.onrender.com",
+  baseURL: "http://localhost:5000",
 });
 
 const useAxiosSecure = () => {

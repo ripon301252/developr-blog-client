@@ -15,6 +15,7 @@ const Chat = () => {
   const [text, setText] = useState("");
   const [socket, setSocket] = useState(null);
   const [loadingUsers, setLoadingUsers] = useState(true);
+  const [loadingMessages, setLoadingMessages] = useState(false);
 
   const bottomRef = useRef(null);
 
@@ -27,14 +28,14 @@ const Chat = () => {
     return () => newSocket.close();
   }, []);
 
-  // 👤 join
+  // 👤 join socket with lowercase email
   useEffect(() => {
     if (socket && user?.email) {
-      socket.emit("join", user.email);
+      socket.emit("join", user.email.toLowerCase());
     }
-  }, [socket, user]);
+  }, [socket, user?.email]);
 
-  // 📥 receive
+  // 📥 receive socket message
   useEffect(() => {
     if (!socket) return;
 
@@ -42,10 +43,11 @@ const Chat = () => {
       setMessages((prev) => {
         const exists = prev.some(
           (m) =>
-            m.id === data.id ||
+            m._id === data._id ||
+            (m.id && m.id === data.id) ||
             (m.text === data.text &&
-              m.senderEmail === data.senderEmail &&
-              m.createdAt === data.createdAt)
+              m.senderEmail?.toLowerCase() === data.senderEmail?.toLowerCase() &&
+              new Date(m.createdAt).getTime() === new Date(data.createdAt).getTime())
         );
         if (exists) return prev;
         return [...prev, data];
@@ -56,7 +58,7 @@ const Chat = () => {
     return () => socket.off("receiveMessage", handler);
   }, [socket]);
 
-  // 🔽 scroll
+  // 🔽 auto scroll
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -64,77 +66,103 @@ const Chat = () => {
   // 💾 load saved target
   useEffect(() => {
     const saved = localStorage.getItem("chatTarget");
-    if (saved) setTarget(JSON.parse(saved));
+    if (saved) {
+      try {
+        setTarget(JSON.parse(saved));
+      } catch (err) {
+        console.error("Failed to parse chatTarget", err);
+      }
+    }
   }, []);
 
-  // 👥 load users
+  // 👥 load users list
   useEffect(() => {
-    const load = async () => {
+    const loadUsers = async () => {
       setLoadingUsers(true);
-      const res = await axiosApi.get("/users");
-      setUsers(res.data.users);
-      setLoadingUsers(false);
+      try {
+        const res = await axiosApi.get("/users");
+        setUsers(res.data?.users || []);
+      } catch (err) {
+        console.error("Error loading users", err);
+      } finally {
+        setLoadingUsers(false);
+      }
     };
-    load();
+    loadUsers();
   }, []);
 
-  // 📩 load messages
+  // 📩 load messages on reload or when target/user changes
   useEffect(() => {
-    const load = async () => {
+    const loadMessages = async () => {
       if (!user?.email || !target?.email) return;
 
-      const res = await axiosApi.get("/messages", {
-        params: {
-          email: user.email,
-          chatWith: target.email,
-        },
-      });
+      setLoadingMessages(true);
+      try {
+        const res = await axiosApi.get("/messages/chat", {
+          params: {
+            email: user.email.toLowerCase(),
+            chatWith: target.email.toLowerCase(),
+          },
+        });
 
-      setMessages(Array.isArray(res.data) ? res.data : []);
+        setMessages(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error("Error loading messages", err);
+      } finally {
+        setLoadingMessages(false);
+      }
     };
 
-    load();
+    loadMessages();
   }, [user?.email, target?.email]);
 
-  // ✉️ send
+  // ✉️ send message
   const handleSend = async () => {
-    if (!text.trim() || !target) return;
+    if (!text.trim() || !target || !user?.email) return;
 
-    const msg = {
-      id: Date.now(),
-      senderEmail: user.email,
-      receiverEmail: target.email,
+    const msgData = {
+      senderEmail: user.email.toLowerCase(),
+      senderImage: user.photoURL || "",
+      senderName: user.displayName || user.name || "User",
+      receiverEmail: target.email.toLowerCase(),
+      receiverImage: target.photoURL || "",
+      receiverName: target.name || "User",
       text,
       createdAt: new Date(),
     };
 
-    await axiosApi.post("/messages", msg);
-    socket.emit("sendMessage", msg);
+    try {
+      // 💾 save to Database first to get real _id
+      const res = await axiosApi.post("/messages", msgData);
+      const savedMsg = res.data?._id ? res.data : { ...msgData, id: Date.now() };
 
-    setMessages((prev) => [...prev, msg]);
-    setText("");
+      socket?.emit("sendMessage", savedMsg);
+
+      setMessages((prev) => [...prev, savedMsg]);
+      setText("");
+    } catch (err) {
+      console.error("Failed to send message", err);
+    }
+  };
+
+  const handleSelectTarget = (u) => {
+    setTarget(u);
+    localStorage.setItem("chatTarget", JSON.stringify(u));
   };
 
   return (
-    <div className="min-h-screen  flex items-center justify-center">
-      <div className="w-full max-w-7xl h-[90vh] flex text-white rounded-2xl overflow-hidden shadow-2xl ">
-
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-6xl h-[80vh] flex text-white rounded-2xl overflow-hidden shadow-2xl">
+        
         {/* LEFT SIDEBAR */}
-        <div className={`w-full md:w-1/3 ${target ? "hidden md:flex" : "flex"} flex-col 
-        bg-white/5`}>
-
-          {/* HEADER */}
-          <h2 className="text-2xl font-bold py-[14.9px] flex justify-center items-center gap-3
-          bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent border-b border-cyan-400/10">
-
-            <span className="p-2 rounded-lg bg-cyan-500/10 border border-cyan-400/20 ">
+        <div className={`w-full md:w-1/3 ${target ? "hidden md:flex" : "flex"} flex-col bg-white/5`}>
+          <h2 className="text-2xl font-bold py-[14.9px] flex justify-center items-center gap-3 bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent border-b border-cyan-400/10">
+            <span className="p-2 rounded-lg bg-cyan-500/10 border border-cyan-400/20">
               <MessageSquareText size={24} className="text-cyan-400" />
             </span>
-
             Chats <span className="text-sm mt-2">({users.length})</span>
           </h2>
 
-          {/* USERS */}
           <div className="flex-1 overflow-y-auto hide-scrollbar">
             {loadingUsers ? (
               <div className="flex justify-center mt-10">
@@ -144,13 +172,10 @@ const Chat = () => {
               users.map((u) => (
                 <div
                   key={u._id}
-                  onClick={() => {
-                    setTarget(u);
-                    localStorage.setItem("chatTarget", JSON.stringify(u));
-                  }}
-                  className={`flex items-center gap-3 p-4 cursor-pointer transition
-                  hover:bg-cyan-500/10
-                  ${target?._id === u._id && "bg-cyan-500/20"}`}
+                  onClick={() => handleSelectTarget(u)}
+                  className={`flex items-center gap-3 p-4 cursor-pointer transition hover:bg-cyan-500/10 ${
+                    target?._id === u._id ? "bg-cyan-500/20" : ""
+                  }`}
                 >
                   <img src={u.photoURL} className="w-10 h-10 rounded-full" />
                   <div>
@@ -164,9 +189,7 @@ const Chat = () => {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className={`w-full md:w-2/3 flex-col ${!target && "hidden md:flex"} flex 
-        bg-white/5 border-l border-cyan-500/10`}>
-
+        <div className={`w-full md:w-2/3 flex-col ${!target ? "hidden md:flex" : "flex"} bg-white/5 border-l border-cyan-500/10`}>
           {!target ? (
             <div className="flex h-full items-center justify-center text-gray-400">
               Select a user to chat
@@ -185,32 +208,38 @@ const Chat = () => {
 
               {/* MESSAGES */}
               <div className="flex-1 overflow-y-auto p-4 space-y-3 hide-scrollbar">
-                {messages.map((msg) => {
-                  const mine = msg.senderEmail === user.email;
+                {loadingMessages ? (
+                  <div className="flex justify-center items-center h-full">
+                    <span className="loading loading-spinner text-cyan-400"></span>
+                  </div>
+                ) : (
+                  messages.map((msg) => {
+                    const mine = msg.senderEmail?.toLowerCase() === user?.email?.toLowerCase();
 
-                  return (
-                    <div key={msg._id || msg.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-                      <div className={`px-4 py-2 rounded-2xl max-w-xs shadow-lg
-                      ${mine
-                        ? "bg-gradient-to-r from-cyan-500/50 to-cyan-600/50 text-white rounded-br-none"
-                        : "bg-white/10 text-white rounded-bl-none"}`}>
-
-                        {msg.text}
-
-                        <div className="text-[10px] mt-1 text-gray-300 flex gap-1">
-                          <span>
-                            {new Date(msg.createdAt).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </span>
-                          <span>• {format(msg.createdAt)}</span>
+                    return (
+                      <div key={msg._id || msg.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+                        <div
+                          className={`px-4 py-2 rounded-2xl max-w-xs shadow-lg ${
+                            mine
+                              ? "bg-gradient-to-r from-cyan-500/50 to-cyan-600/50 text-white rounded-br-none"
+                              : "bg-white/10 text-white rounded-bl-none"
+                          }`}
+                        >
+                          {msg.text}
+                          <div className="text-[10px] mt-1 text-gray-300 flex gap-1">
+                            <span>
+                              {new Date(msg.createdAt).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </span>
+                            <span>• {format(msg.createdAt)}</span>
+                          </div>
                         </div>
-
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
                 <div ref={bottomRef}></div>
               </div>
 
@@ -226,8 +255,7 @@ const Chat = () => {
 
                 <button
                   onClick={handleSend}
-                  className="px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-600
-                  hover:scale-105 transition shadow-lg shadow-cyan-500/20"
+                  className="px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-600 hover:scale-105 transition shadow-lg shadow-cyan-500/20"
                 >
                   <Send size={18} />
                 </button>
@@ -235,6 +263,7 @@ const Chat = () => {
             </>
           )}
         </div>
+
       </div>
     </div>
   );

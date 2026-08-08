@@ -238,7 +238,7 @@ const Register = () => {
           <img
             src={registerImg}
             alt=""
-            className="lg:h-[672.9px] object-center rounded-2xl drop-shadow-[0_0_25px_rgba(34,197,94,0.4)]"
+            className="lg:h-[672.9px] object-center rounded-2xl drop-shadow-[0_0_12px_rgba(20,184,166,0.35)]"
           />
         </div>
       </div>

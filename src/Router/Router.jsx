@@ -14,7 +14,10 @@ import UserProfile from "../Pages/Dashboard/UserProfile";
 import UserManagement from "../Pages/Dashboard/UserManagement";
 import BloggerManagement from "../Pages/Dashboard/BloggerManagement";
 import Chat from "../Pages/Messages/Chat";
-
+import CommentsManagement from "../Pages/Dashboard/CommentsManagement";
+import MessagesManagement from "../Pages/Dashboard/MessagesManagement";
+import AdminRoute from "../Router/AdminRoute"
+ 
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -81,6 +84,18 @@ export const router = createBrowserRouter([
       {
         path: "blogger-management",
         element: <BloggerManagement />,
+      },
+      {
+        path: "comments-management",
+        element: <CommentsManagement />,
+      },
+      {
+        path: "messages-management",
+        element: <PrivateRoute>
+          <AdminRoute>
+            <MessagesManagement />
+          </AdminRoute>
+        </PrivateRoute>,
       },
     ],
   },
